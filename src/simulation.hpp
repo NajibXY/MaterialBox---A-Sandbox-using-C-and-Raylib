@@ -1,6 +1,9 @@
 #pragma once
 #include "grid.hpp"
 
+extern const int EMPTY_TYPE;
+extern const int SAND_TYPE;
+
 class Simulation {
     private :
         Grid grid;

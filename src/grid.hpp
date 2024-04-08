@@ -26,17 +26,17 @@ class Grid {
         void SetMaterialType(int value) { materialType = value; }
 
         // Operations on a cell
+        bool IsEmpty(int x, int y);
         bool IsInBounds(int x, int y);
         int GetCell(int x, int y);
         void SetCell(int x, int y, int value);
 
         // Global Drawing operations
-        void DrawGrid();
+        void DrawGrid(bool running);
         void Randomize();
         void Clear();
 
-        // Drawing shapes
-        void DrawMaterial(int x, int y);
-
+        // Drawing materials
+        void DrawMaterial(int x, int y, bool running);
 
 };

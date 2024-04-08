@@ -15,31 +15,55 @@ int Grid::GetCell(int x, int y) {
     return cells[x][y]; 
 }
 
+bool Grid::IsEmpty(int x, int y) {
+    if (IsInBounds(x, y)) {
+        return cells[x][y] == EMPTY_TYPE;
+    }
+    return false;
+}
+
 void Grid::SetCell(int x, int y, int value) {
-    if(IsInBounds(x, y)) {
+    if(IsInBounds(x, y) &&  IsEmpty(x, y)) {
+        cells[x][y] = value;
+    } else if (IsInBounds(x, y) && value == EMPTY_TYPE) {
         cells[x][y] = value;
     } else {
-        // Wrap around toroidal coordinates
-        int wrappedX = (x + rows) % rows;
-        int wrappedY = (y + columns) % columns;
-        cells[wrappedX][wrappedY] = value;
+        //todo
+        // // Wrap around toroidal coordinates
+        // int wrappedX = (x + rows) % rows;
+        // int wrappedY = (y + columns) % columns;
+        // cells[wrappedX][wrappedY] = value;
     }
 }
 
-void Grid::DrawGrid() {
+void Grid::DrawGrid(bool running) {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
             Color color; 
+            int random = GetRandomValue(0, 2);
             switch(cells[i][j]) {
                 case 1 :
-                    color = YELLOW;
+                    if (!running) {
+                        color = ORANGE;
+                    }
+                    else {
+                        if (random == 0) {
+                            color = YELLOW;
+                        } else if (random == 1) {
+                            color = ORANGE;
+                        } else {
+                            color = GOLD;
+                        }
+                    }
                     break;
                 default :
                     color = BLACK;
+                    break; 
             }
             DrawRectangle(j*cellDim, i*cellDim, cellDim-1, cellDim-1, color);
         }
     }
+    
 }
 
 void Grid::Randomize() {
@@ -55,13 +79,17 @@ void Grid::Randomize() {
 void Grid::Clear() {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
-            cells[i][j] = 0;
+            cells[i][j] = EMPTY_TYPE;
         }
     }
 }
 
-void Grid::DrawMaterial(int x, int y) {
-    if (IsInBounds(x, y)) {
+void Grid::DrawMaterial(int x, int y, bool running) {
+    if (IsInBounds(x, y) && running) {
+        SetCell(x, y, materialType);
+        SetCell(x+1, y+1, materialType);
+        SetCell(x+1, y-1, materialType);
+    } else if (IsInBounds(x, y)) {
         SetCell(x, y, materialType);
     }
 
