@@ -133,8 +133,9 @@ void Grid::DrawMaterial(int x, int y, bool running) {
     // Add some drawing constraints logic ?
     SetCell(x, y, materialToDraw);
     if (IsInBounds(x, y) && running) {
+        // SetCell(x+1, y+1, materialToDraw);
+        // SetCell(x+1, y-1, materialToDraw);
         SetCell(x+1, y+1, materialToDraw);
-        SetCell(x+1, y-1, materialToDraw);
     }
 
     // if (IsInBounds(x, y)) {

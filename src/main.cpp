@@ -70,7 +70,7 @@ int main()
     Color GREY = {29,29,29,255};
 
     // Initialisation of window
-    InitWindow(WIDTH_W + MENU_W, HEIGHT_W, "Game of Life Basic Simulation");
+    InitWindow(WIDTH_W + MENU_W, HEIGHT_W, "MaterialBox");
     SetTargetFPS(INITIAL_FRAMERATE);
 
     Simulation simulation(WIDTH_W, HEIGHT_W, CELL_DIM, RANDOM_RATE);
