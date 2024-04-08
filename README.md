@@ -7,3 +7,4 @@
 - Enhance clearing propagation
 - Adapt menu ("sim" -> "game" etc.)
 - Changer police
+- Add counters

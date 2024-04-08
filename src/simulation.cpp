@@ -1,5 +1,6 @@
 #include "simulation.hpp"
 #include <raylib.h>
+#include <iostream>
 
 void Simulation::DrawGrid() {
     grid.DrawGrid(running);
@@ -72,6 +73,7 @@ void Simulation::Update() {
 // -------------------------------------------- SAND LOGIC --------------------------------------------
 
 void Simulation::UpdateSandLogic() {
+    int number_of_sand_grains = 0;
     // Create a new grid to store the updated values
     Grid newGrid = grid;
     // Loop through the cells in the grid
@@ -79,27 +81,29 @@ void Simulation::UpdateSandLogic() {
         for (int j = 0; j < grid.GetColumns(); j++) {
             if (grid.GetCell(i, j) ==  SAND_TYPE_1 || grid.GetCell(i, j) ==  SAND_TYPE_2 || grid.GetCell(i, j) ==  SAND_TYPE_3) {
                 UpdateSandLogicOnCell(i, j, newGrid);
+                number_of_sand_grains++;
             }
         }
     }
     // Update the grid with the new values
     grid = newGrid;
+    std::cout << "Number of sand grains: " << number_of_sand_grains << std::endl;
 }
 
 void Simulation::UpdateSandLogicOnCell(int x, int y, Grid& newGrid) {
     // If the cell is sand
     // Check if the cell is not at the limit of the grid
-    if (!grid.IsAtBottomLimit(x, y) || grid.IsEmpty(x + 1, y)) {
+    if (!newGrid.IsAtBottomLimit(x, y) || newGrid.IsEmpty(x + 1, y)) {
         // Check if the cell below is empty or below right or below left
         // Reset initial cell & 
         // Apply random sand type to future cell
-        if (grid.IsEmpty(x + 1, y)) {
+        if (newGrid.IsEmpty(x + 1, y)) {
             newGrid.SetCell(x, y, EMPTY_TYPE);
             newGrid.SetCell(x + 1, y, GetRandomSandValue());
-        } else if (grid.IsEmpty(x + 1, y - 1)) {
+        } else if (newGrid.IsEmpty(x + 1, y - 1)) {
             newGrid.SetCell(x, y, EMPTY_TYPE);
             newGrid.SetCell(x + 1, y - 1, GetRandomSandValue());
-        } else if (grid.IsEmpty(x + 1, y + 1)) {
+        } else if (newGrid.IsEmpty(x + 1, y + 1)) {
             newGrid.SetCell(x, y, EMPTY_TYPE);
             newGrid.SetCell(x + 1, y + 1, GetRandomSandValue());
         }
