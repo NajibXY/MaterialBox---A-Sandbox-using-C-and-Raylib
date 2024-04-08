@@ -15,12 +15,12 @@ extern const int SAND_TYPE_3 = 13;
 const int MENU_W = 420;
 const int WIDTH_W = 1300; // MAX 1920 - 420 = 1500
 const int HEIGHT_W = 900; // MAX 1080
-const int CELL_DIM = 10;
+const int CELL_DIM = 6;
 const int INITIAL_RANDOM_RATE = 2;
-const int INITIAL_FRAMERATE = 30;
+const int INITIAL_FRAMERATE = 60;
 const int MAX_FRAMERATE = 1000;
 const int SUBMAX_FRAMERATE = 640;
-const int MIN_FRAMERATE = 10;
+const int MIN_FRAMERATE =  30;
 //todo add shapes
 const std::string SAND_NAME = "SAND";
 

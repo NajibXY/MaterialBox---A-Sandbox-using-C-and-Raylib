@@ -66,9 +66,9 @@ void Grid::DrawGrid(bool running) {
                     if (cells[i][j] == SAND_TYPE_1) {
                         color = YELLOW;
                     } else if (cells[i][j] == SAND_TYPE_2) {
-                        color = BLUE;
+                        color = GOLD;
                     } else {
-                        color = RED;
+                        color = ORANGE;
                     } 
                     break;
                 default :
