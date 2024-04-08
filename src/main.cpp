@@ -8,6 +8,9 @@
 
 extern const int EMPTY_TYPE = 0;
 extern const int SAND_TYPE = 1;
+extern const int SAND_TYPE_1 = 11;
+extern const int SAND_TYPE_2 = 12;
+extern const int SAND_TYPE_3 = 13;
 
 const int MENU_W = 420;
 const int WIDTH_W = 1300; // MAX 1920 - 420 = 1500

@@ -1,4 +1,5 @@
 #include "simulation.hpp"
+#include <raylib.h>
 
 void Simulation::DrawGrid() {
     grid.DrawGrid(running);
@@ -68,10 +69,19 @@ void Simulation::Update() {
     for (int i = 0; i < grid.GetRows(); i++) {
         for (int j = 0; j < grid.GetColumns(); j++) {
             switch (grid.GetCell(i, j)) {
-                case 1 :
+                case 11: case 12: case 13:
                     if (grid.GetCell(i + 1, j) == EMPTY_TYPE) {
+                        // Reset initial cell
                         newGrid.SetCell(i, j, 0);
-                        newGrid.SetCell(i + 1, j, 1);
+                        // Apply random sand type to future cell
+                        int random = GetRandomValue(0, 2);
+                        if (random == 0) {
+                            newGrid.SetCell(i + 1, j, SAND_TYPE_1);
+                        } else if (random == 1) {
+                            newGrid.SetCell(i + 1, j, SAND_TYPE_2);
+                        } else if (random == 2) {
+                            newGrid.SetCell(i + 1, j, SAND_TYPE_3);
+                        }
                     // } else if (grid.GetCell(i + 1, j - 1) == EMPTY_TYPE) {
                     //     newGrid.SetCell(i, j, EMPTY_TYPE);
                     //     newGrid.SetCell(i + 1, j - 1, SAND_TYPE);

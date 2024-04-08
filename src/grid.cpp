@@ -1,5 +1,8 @@
 #include <raylib.h>
 #include "grid.hpp"
+//todo drop
+using namespace std;
+#include <iostream>
 
 bool Grid::IsInBounds(int x, int y) {
     return x >= 0 && x < rows && y >= 0 && y < columns;
@@ -40,21 +43,19 @@ void Grid::DrawGrid(bool running) {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
             Color color; 
-            int random = GetRandomValue(0, 2);
             switch(cells[i][j]) {
-                case 1 :
-                    if (!running) {
-                        color = ORANGE;
-                    }
-                    else {
-                        if (random == 0) {
-                            color = YELLOW;
-                        } else if (random == 1) {
-                            color = ORANGE;
-                        } else {
-                            color = GOLD;
-                        }
-                    }
+                case 11: case 12: case 13:
+                    // if (!running) {
+                    //     color = ORANGE;
+                    // }
+                    //todo arrange to gold and orange colors
+                    if (cells[i][j] == SAND_TYPE_1) {
+                        color = YELLOW;
+                    } else if (cells[i][j] == SAND_TYPE_2) {
+                        color = BLUE;
+                    } else {
+                        color = RED;
+                    } 
                     break;
                 default :
                     color = BLACK;
@@ -71,7 +72,18 @@ void Grid::Randomize() {
         for (int j = 0; j < columns; j++) {
             int random = randomRate > 0 ? GetRandomValue(0, randomRate - 1) : 1;
             //todo randomize types
-            cells[i][j] = (random == 0) ? SAND_TYPE : 0;
+            if (random == 0) {
+                random = GetRandomValue(0, 2);
+                if (random == 0) {
+                    cells[i][j] = SAND_TYPE_1;
+                } else if (random == 1) {
+                    cells[i][j] = SAND_TYPE_2;
+                } else {
+                    cells[i][j] = SAND_TYPE_3;
+                }
+            } else {
+                cells[i][j] = EMPTY_TYPE;
+            }
         }
     }
 }
@@ -85,12 +97,24 @@ void Grid::Clear() {
 }
 
 void Grid::DrawMaterial(int x, int y, bool running) {
+    int materialToDraw = 0;
+    if (materialType == SAND_TYPE) {
+        int random = GetRandomValue(0, 2);
+        if (random == 0) {
+            materialToDraw = SAND_TYPE_1;
+        } else if (random == 1) {
+            materialToDraw = SAND_TYPE_2;
+        } else {
+            materialToDraw = SAND_TYPE_3;
+        }
+    }
+    
     if (IsInBounds(x, y) && running) {
-        SetCell(x, y, materialType);
-        SetCell(x+1, y+1, materialType);
-        SetCell(x+1, y-1, materialType);
+        SetCell(x, y, materialToDraw);
+        SetCell(x+1, y+1, materialToDraw);
+        SetCell(x+1, y-1, materialToDraw);
     } else if (IsInBounds(x, y)) {
-        SetCell(x, y, materialType);
+        SetCell(x, y, materialToDraw);
     }
 
     // if (IsInBounds(x, y)) {
