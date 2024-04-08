@@ -34,4 +34,5 @@ class Simulation {
         int CountLiveNeighbours(int x, int y);
         void Update();
         int GetRandomSandValue();
+        void UpdateSandLogic(int x, int y, Grid& newGrid);
 };

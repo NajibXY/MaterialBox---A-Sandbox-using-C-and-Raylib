@@ -69,60 +69,38 @@ void Simulation::Update() {
     for (int i = 0; i < grid.GetRows(); i++) {
         for (int j = 0; j < grid.GetColumns(); j++) {
             switch (grid.GetCell(i, j)) {
+                // ---------------------- SAND LOGIC ----------------------
                 case 11: case 12: case 13:
-                    // If the cell is sand
-                    // Check if the cell is not at the limit of the grid
-                    if (!grid.IsAtLimit(i, j)) {
-                        // Check if the cell below is empty
-                        if (grid.GetCell(i + 1, j) == EMPTY_TYPE) {
-                            // Reset initial cell
-                            newGrid.SetCell(i, j, 0);
-                            // Apply random sand type to future cell
-                            newGrid.SetCell(i + 1, j, GetRandomSandValue());
-                        } else if (grid.GetCell(i + 1, j - 1) == EMPTY_TYPE) {
-                            newGrid.SetCell(i, j, EMPTY_TYPE);
-                            newGrid.SetCell(i + 1, j - 1, GetRandomSandValue());
-                        } else if (grid.GetCell(i + 1, j + 1) == EMPTY_TYPE) {
-                            newGrid.SetCell(i, j, EMPTY_TYPE);
-                            newGrid.SetCell(i + 1, j + 1, GetRandomSandValue());
-                        }
-                    }
-                    // } else if (grid.GetCell(i + 1, j - 1) == EMPTY_TYPE) {
-                    //     newGrid.SetCell(i, j, EMPTY_TYPE);
-                    //     newGrid.SetCell(i + 1, j - 1, SAND_TYPE);
-                    // } else if (grid.GetCell(i + 1, j + 1) == EMPTY_TYPE) {
-                    //     newGrid.SetCell(i, j, EMPTY_TYPE);
-                    //     newGrid.SetCell(i + 1, j + 1, SAND_TYPE);
+                    UpdateSandLogic(i, j, newGrid);
                     break;
                 default :
                     break;
             }
-            // // Get the number of live neighbours for the cell
-            // int liveNeighbours = CountLiveNeighbours(i, j);
-
-            // // Update the cell value based on the rules of the Game of Life
-            // if (grid.GetCell(i, j) == 0) {
-            //     if (liveNeighbours == 3) {
-            //         // Reproduction
-            //         newGrid.SetCell(i, j, 1);
-            //     } else {
-            //         // No change
-            //         newGrid.SetCell(i, j, 0);
-            //     }
-            // } else {
-            //     if (liveNeighbours + grid.GetCell(i, j) < 3 || liveNeighbours + grid.GetCell(i, j)  > 4) {
-            //         // Underpopulation and Overpopulation
-            //         newGrid.SetCell(i, j, 0);
-            //     } else {
-            //         // Survival
-            //         newGrid.SetCell(i, j, grid.GetCell(i, j));
-            //     }
-            // }
         }
     }
 
     // Update the grid with the new values
     grid = newGrid;
+}
+
+void Simulation::UpdateSandLogic(int x, int y, Grid& newGrid) {
+    // If the cell is sand
+    // Check if the cell is not at the limit of the grid
+    if (!grid.IsAtLimit(x, y) || grid.IsEmpty(x + 1, y)) {
+        // Check if the cell below is empty or below right or below left
+        // Reset initial cell & 
+        // Apply random sand type to future cell
+        if (grid.GetCell(x + 1, y) == EMPTY_TYPE) {
+            newGrid.SetCell(x, y, EMPTY_TYPE);
+            newGrid.SetCell(x + 1, y, GetRandomSandValue());
+        } else if (grid.GetCell(x + 1, y - 1) == EMPTY_TYPE) {
+            newGrid.SetCell(x, y, EMPTY_TYPE);
+            newGrid.SetCell(x + 1, y - 1, GetRandomSandValue());
+        } else if (grid.GetCell(x + 1, y + 1) == EMPTY_TYPE) {
+            newGrid.SetCell(x, y, EMPTY_TYPE);
+            newGrid.SetCell(x + 1, y + 1, GetRandomSandValue());
+        }
+    }
 }
 
 int Simulation::GetRandomSandValue() {
