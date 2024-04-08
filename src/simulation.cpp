@@ -70,19 +70,29 @@ void Simulation::Update() {
         for (int j = 0; j < grid.GetColumns(); j++) {
             switch (grid.GetCell(i, j)) {
                 case 11: case 12: case 13:
-                    if (grid.GetCell(i + 1, j) == EMPTY_TYPE) {
-                        // Reset initial cell
-                        newGrid.SetCell(i, j, 0);
-                        // Apply random sand type to future cell
-                        int randomSand = GetRandomSandValue();
-                        newGrid.SetCell(i + 1, j, randomSand);
+                    // If the cell is sand
+                    // Check if the cell is not at the limit of the grid
+                    if (!grid.IsAtLimit(i, j)) {
+                        // Check if the cell below is empty
+                        if (grid.GetCell(i + 1, j) == EMPTY_TYPE) {
+                            // Reset initial cell
+                            newGrid.SetCell(i, j, 0);
+                            // Apply random sand type to future cell
+                            newGrid.SetCell(i + 1, j, GetRandomSandValue());
+                        } else if (grid.GetCell(i + 1, j - 1) == EMPTY_TYPE) {
+                            newGrid.SetCell(i, j, EMPTY_TYPE);
+                            newGrid.SetCell(i + 1, j - 1, GetRandomSandValue());
+                        } else if (grid.GetCell(i + 1, j + 1) == EMPTY_TYPE) {
+                            newGrid.SetCell(i, j, EMPTY_TYPE);
+                            newGrid.SetCell(i + 1, j + 1, GetRandomSandValue());
+                        }
+                    }
                     // } else if (grid.GetCell(i + 1, j - 1) == EMPTY_TYPE) {
                     //     newGrid.SetCell(i, j, EMPTY_TYPE);
                     //     newGrid.SetCell(i + 1, j - 1, SAND_TYPE);
                     // } else if (grid.GetCell(i + 1, j + 1) == EMPTY_TYPE) {
                     //     newGrid.SetCell(i, j, EMPTY_TYPE);
                     //     newGrid.SetCell(i + 1, j + 1, SAND_TYPE);
-                    }
                     break;
                 default :
                     break;

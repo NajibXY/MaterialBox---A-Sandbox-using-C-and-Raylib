@@ -8,13 +8,17 @@ bool Grid::IsInBounds(int x, int y) {
     return x >= 0 && x < rows && y >= 0 && y < columns;
 }
 
+bool Grid::IsAtLimit(int x, int y) {
+    return x == 0 || x == rows - 1 || y == 0 || y == columns - 1;
+}
+
 int Grid::GetCell(int x, int y) {
-    if(!IsInBounds(x, y)) {
-        // Wrap around toroidal coordinates
-        int wrappedX = (x + rows) % rows;
-        int wrappedY = (y + columns) % columns;
-        return cells[wrappedX][wrappedY];
-    }
+    // if(!IsInBounds(x, y)) {
+    //     // Wrap around toroidal coordinates
+    //     int wrappedX = (x + rows) % rows;
+    //     int wrappedY = (y + columns) % columns;
+    //     return cells[wrappedX][wrappedY];
+    // }
     return cells[x][y]; 
 }
 

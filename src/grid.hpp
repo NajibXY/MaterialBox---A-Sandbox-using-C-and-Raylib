@@ -30,6 +30,7 @@ class Grid {
         // Operations on a cell
         bool IsEmpty(int x, int y);
         bool IsInBounds(int x, int y);
+        bool IsAtLimit(int x, int y);
         int GetCell(int x, int y);
         void SetCell(int x, int y, int value);
 
