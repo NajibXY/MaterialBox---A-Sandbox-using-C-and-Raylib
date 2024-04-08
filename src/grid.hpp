@@ -40,5 +40,6 @@ class Grid {
 
         // Drawing materials
         void DrawMaterial(int x, int y, bool running);
+        int GetRandomSandValue();
 
 };

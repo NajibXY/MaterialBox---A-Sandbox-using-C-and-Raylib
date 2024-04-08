@@ -70,17 +70,10 @@ void Grid::DrawGrid(bool running) {
 void Grid::Randomize() {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
-            int random = randomRate > 0 ? GetRandomValue(0, randomRate - 1) : 1;
             //todo randomize types
+            int random = randomRate > 0 ? GetRandomValue(0, randomRate - 1) : 1;
             if (random == 0) {
-                random = GetRandomValue(0, 2);
-                if (random == 0) {
-                    cells[i][j] = SAND_TYPE_1;
-                } else if (random == 1) {
-                    cells[i][j] = SAND_TYPE_2;
-                } else {
-                    cells[i][j] = SAND_TYPE_3;
-                }
+                cells[i][j] = GetRandomSandValue();
             } else {
                 cells[i][j] = EMPTY_TYPE;
             }
@@ -94,6 +87,19 @@ void Grid::Clear() {
             cells[i][j] = EMPTY_TYPE;
         }
     }
+}
+
+int Grid::GetRandomSandValue() {
+    // Get a random sand type
+    int randomSand = GetRandomValue(0, 2);
+    if (randomSand == 0) {
+        return SAND_TYPE_1;
+    } else if (randomSand == 1) {
+        return SAND_TYPE_2;
+    } else {
+        return SAND_TYPE_3;
+    }
+    return SAND_TYPE_1;
 }
 
 void Grid::DrawMaterial(int x, int y, bool running) {

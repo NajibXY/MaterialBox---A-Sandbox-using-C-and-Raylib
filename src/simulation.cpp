@@ -74,14 +74,8 @@ void Simulation::Update() {
                         // Reset initial cell
                         newGrid.SetCell(i, j, 0);
                         // Apply random sand type to future cell
-                        int random = GetRandomValue(0, 2);
-                        if (random == 0) {
-                            newGrid.SetCell(i + 1, j, SAND_TYPE_1);
-                        } else if (random == 1) {
-                            newGrid.SetCell(i + 1, j, SAND_TYPE_2);
-                        } else if (random == 2) {
-                            newGrid.SetCell(i + 1, j, SAND_TYPE_3);
-                        }
+                        int randomSand = GetRandomSandValue();
+                        newGrid.SetCell(i + 1, j, randomSand);
                     // } else if (grid.GetCell(i + 1, j - 1) == EMPTY_TYPE) {
                     //     newGrid.SetCell(i, j, EMPTY_TYPE);
                     //     newGrid.SetCell(i + 1, j - 1, SAND_TYPE);
@@ -119,4 +113,17 @@ void Simulation::Update() {
 
     // Update the grid with the new values
     grid = newGrid;
+}
+
+int Simulation::GetRandomSandValue() {
+    // Get a random sand type
+    int randomSand = GetRandomValue(0, 2);
+    if (randomSand == 0) {
+        return SAND_TYPE_1;
+    } else if (randomSand == 1) {
+        return SAND_TYPE_2;
+    } else {
+        return SAND_TYPE_3;
+    }
+    return SAND_TYPE_1;
 }

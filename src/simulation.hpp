@@ -33,4 +33,5 @@ class Simulation {
         // Simulation update logic
         int CountLiveNeighbours(int x, int y);
         void Update();
+        int GetRandomSandValue();
 };
