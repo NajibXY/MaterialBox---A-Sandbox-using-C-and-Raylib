@@ -77,8 +77,25 @@ void Simulation::UpdateSandLogic() {
     // Create a new grid to store the updated values
     Grid newGrid = grid;
     // Loop through the cells in the grid
+    // for (int i = 0; i < grid.GetRows(); i++) {
+    //     for (int j = grid.GetColumns()-1; j >= 0; j--) {
+    //         if (grid.GetCell(i, j) ==  SAND_TYPE_1 || grid.GetCell(i, j) ==  SAND_TYPE_2 || grid.GetCell(i, j) ==  SAND_TYPE_3) {
+    //             UpdateSandLogicOnCell(i, j, newGrid);
+    //             number_of_sand_grains++;
+    //         }
+    //     }
+    // }
+    int firstHalf = grid.GetColumns()/2;
     for (int i = 0; i < grid.GetRows(); i++) {
-        for (int j = 0; j < grid.GetColumns(); j++) {
+        for (int j = 0; j < firstHalf; j++) {
+            if (grid.GetCell(i, j) ==  SAND_TYPE_1 || grid.GetCell(i, j) ==  SAND_TYPE_2 || grid.GetCell(i, j) ==  SAND_TYPE_3) {
+                UpdateSandLogicOnCell(i, j, newGrid);
+                number_of_sand_grains++;
+            }
+        }
+    }
+    for (int i = 0; i < grid.GetRows(); i++) {
+        for (int j = grid.GetColumns()-1; j >= firstHalf; j--) {
             if (grid.GetCell(i, j) ==  SAND_TYPE_1 || grid.GetCell(i, j) ==  SAND_TYPE_2 || grid.GetCell(i, j) ==  SAND_TYPE_3) {
                 UpdateSandLogicOnCell(i, j, newGrid);
                 number_of_sand_grains++;
