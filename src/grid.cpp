@@ -12,6 +12,22 @@ bool Grid::IsAtLimit(int x, int y) {
     return x == 0 || x == rows - 1 || y == 0 || y == columns - 1;
 }
 
+bool Grid::IsAtLeftLimit(int x, int y) {
+    return y == 0;
+}
+
+bool Grid::IsAtRightLimit(int x, int y) {
+    return y == columns - 1;
+}
+
+bool Grid::IsAtTopLimit(int x, int y) {
+    return x == 0;
+}
+
+bool Grid::IsAtBottomLimit(int x, int y) {
+    return x == rows - 1;
+}
+
 int Grid::GetCell(int x, int y) {
     // if(!IsInBounds(x, y)) {
     //     // Wrap around toroidal coordinates
@@ -34,12 +50,6 @@ void Grid::SetCell(int x, int y, int value) {
         cells[x][y] = value;
     } else if (IsInBounds(x, y) && value == EMPTY_TYPE) {
         cells[x][y] = value;
-    } else {
-        //todo
-        // // Wrap around toroidal coordinates
-        // int wrappedX = (x + rows) % rows;
-        // int wrappedY = (y + columns) % columns;
-        // cells[wrappedX][wrappedY] = value;
     }
 }
 
@@ -107,7 +117,8 @@ int Grid::GetRandomSandValue() {
 }
 
 void Grid::DrawMaterial(int x, int y, bool running) {
-    int materialToDraw = 0;
+    //todo add more materials
+    int materialToDraw = EMPTY_TYPE;
     if (materialType == SAND_TYPE) {
         int random = GetRandomValue(0, 2);
         if (random == 0) {
@@ -118,13 +129,12 @@ void Grid::DrawMaterial(int x, int y, bool running) {
             materialToDraw = SAND_TYPE_3;
         }
     }
-    
+    // todo
+    // Add some drawing constraints logic ?
+    SetCell(x, y, materialToDraw);
     if (IsInBounds(x, y) && running) {
-        if (IsEmpty(x, y)) SetCell(x, y, materialToDraw);
-        if (IsEmpty(x+1, y+1)) SetCell(x+1, y+1, materialToDraw);
-        if (IsEmpty(x+1, y-1)) SetCell(x+1, y-1, materialToDraw);
-    } else if (IsInBounds(x, y)) {
-        SetCell(x, y, materialToDraw);
+        SetCell(x+1, y+1, materialToDraw);
+        SetCell(x+1, y-1, materialToDraw);
     }
 
     // if (IsInBounds(x, y)) {

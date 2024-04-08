@@ -89,21 +89,21 @@ void Simulation::UpdateSandLogic() {
 void Simulation::UpdateSandLogicOnCell(int x, int y, Grid& newGrid) {
     // If the cell is sand
     // Check if the cell is not at the limit of the grid
-    if (!grid.IsAtLimit(x, y) || grid.IsEmpty(x + 1, y)) {
+    if (!grid.IsAtBottomLimit(x, y) || grid.IsEmpty(x + 1, y)) {
         // Check if the cell below is empty or below right or below left
         // Reset initial cell & 
         // Apply random sand type to future cell
-        if (grid.GetCell(x + 1, y) == EMPTY_TYPE) {
+        if (grid.IsEmpty(x + 1, y)) {
             newGrid.SetCell(x, y, EMPTY_TYPE);
             newGrid.SetCell(x + 1, y, GetRandomSandValue());
-        } else if (grid.GetCell(x + 1, y - 1) == EMPTY_TYPE) {
+        } else if (grid.IsEmpty(x + 1, y - 1)) {
             newGrid.SetCell(x, y, EMPTY_TYPE);
             newGrid.SetCell(x + 1, y - 1, GetRandomSandValue());
-        } else if (grid.GetCell(x + 1, y + 1) == EMPTY_TYPE) {
+        } else if (grid.IsEmpty(x + 1, y + 1)) {
             newGrid.SetCell(x, y, EMPTY_TYPE);
             newGrid.SetCell(x + 1, y + 1, GetRandomSandValue());
         }
-    }
+    } 
 }
 
 int Simulation::GetRandomSandValue() {

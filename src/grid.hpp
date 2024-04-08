@@ -31,6 +31,10 @@ class Grid {
         bool IsEmpty(int x, int y);
         bool IsInBounds(int x, int y);
         bool IsAtLimit(int x, int y);
+        bool IsAtLeftLimit(int x, int y);
+        bool IsAtRightLimit(int x, int y);
+        bool IsAtTopLimit(int x, int y);
+        bool IsAtBottomLimit(int x, int y);
         int GetCell(int x, int y);
         void SetCell(int x, int y, int value);
 
