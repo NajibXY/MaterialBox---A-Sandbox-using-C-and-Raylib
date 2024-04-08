@@ -120,9 +120,9 @@ void Grid::DrawMaterial(int x, int y, bool running) {
     }
     
     if (IsInBounds(x, y) && running) {
-        SetCell(x, y, materialToDraw);
-        SetCell(x+1, y+1, materialToDraw);
-        SetCell(x+1, y-1, materialToDraw);
+        if (IsEmpty(x, y)) SetCell(x, y, materialToDraw);
+        if (IsEmpty(x+1, y+1)) SetCell(x+1, y+1, materialToDraw);
+        if (IsEmpty(x+1, y-1)) SetCell(x+1, y-1, materialToDraw);
     } else if (IsInBounds(x, y)) {
         SetCell(x, y, materialToDraw);
     }

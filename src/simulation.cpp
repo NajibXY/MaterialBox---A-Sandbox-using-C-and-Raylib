@@ -63,27 +63,30 @@ int Simulation::CountLiveNeighbours(int x, int y) {
 
 void Simulation::Update() {
     // Create a new grid to store the updated values
-    Grid newGrid = grid;
+    // todo 
+    // Order of logics is important 
+    // Apply Sand Logic
+    UpdateSandLogic();
+}
 
+// -------------------------------------------- SAND LOGIC --------------------------------------------
+
+void Simulation::UpdateSandLogic() {
+    // Create a new grid to store the updated values
+    Grid newGrid = grid;
     // Loop through the cells in the grid
     for (int i = 0; i < grid.GetRows(); i++) {
         for (int j = 0; j < grid.GetColumns(); j++) {
-            switch (grid.GetCell(i, j)) {
-                // ---------------------- SAND LOGIC ----------------------
-                case 11: case 12: case 13:
-                    UpdateSandLogic(i, j, newGrid);
-                    break;
-                default :
-                    break;
+            if (grid.GetCell(i, j) ==  SAND_TYPE_1 || grid.GetCell(i, j) ==  SAND_TYPE_2 || grid.GetCell(i, j) ==  SAND_TYPE_3) {
+                UpdateSandLogicOnCell(i, j, newGrid);
             }
         }
     }
-
     // Update the grid with the new values
     grid = newGrid;
 }
 
-void Simulation::UpdateSandLogic(int x, int y, Grid& newGrid) {
+void Simulation::UpdateSandLogicOnCell(int x, int y, Grid& newGrid) {
     // If the cell is sand
     // Check if the cell is not at the limit of the grid
     if (!grid.IsAtLimit(x, y) || grid.IsEmpty(x + 1, y)) {
