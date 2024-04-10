@@ -117,6 +117,15 @@ void Simulation::UpdateSandLogicOnCell(int x, int y, Grid& newGrid) {
         if (newGrid.IsEmpty(x + 1, y)) {
             newGrid.SetCell(x, y, EMPTY_TYPE);
             newGrid.SetCell(x + 1, y, GetRandomSandValue());
+        } else if (newGrid.IsEmpty(x + 1, y - 1) && newGrid.IsEmpty(x + 1, y + 1)) {
+            int randomDirection = GetRandomValue(0, 1);
+            if (randomDirection == 0) {
+                newGrid.SetCell(x, y, EMPTY_TYPE);
+                newGrid.SetCell(x + 1, y - 1, GetRandomSandValue());
+            } else {
+                newGrid.SetCell(x, y, EMPTY_TYPE);
+                newGrid.SetCell(x + 1, y + 1, GetRandomSandValue());
+            }
         } else if (newGrid.IsEmpty(x + 1, y - 1)) {
             newGrid.SetCell(x, y, EMPTY_TYPE);
             newGrid.SetCell(x + 1, y - 1, GetRandomSandValue());

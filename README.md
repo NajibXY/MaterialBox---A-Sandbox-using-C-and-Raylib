@@ -8,3 +8,6 @@
 - Adapt menu ("sim" -> "game" etc.)
 - Changer police
 - Add counters
+- Refactor to use pixels (dim = 1, drawpixel, and enhance draws with mouse)
+
+- Add a velocityGrid !
