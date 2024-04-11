@@ -11,6 +11,7 @@ extern const int SAND_TYPE = 1;
 extern const int SAND_TYPE_1 = 11;
 extern const int SAND_TYPE_2 = 12;
 extern const int SAND_TYPE_3 = 13;
+extern const int STONE_TYPE = 2;
 
 const int MENU_W = 420;
 const int WIDTH_W = 1300; // MAX 1920 - 420 = 1500
@@ -23,6 +24,8 @@ const int SUBMAX_FRAMERATE = 640;
 const int MIN_FRAMERATE =  30;
 //todo add shapes
 const std::string SAND_NAME = "SAND";
+const std::string EMPTY_NAME = "EMPTY";
+const std::string STONE_NAME = "STONE";
 
 // Simulation variables
 int FRAMERATE = INITIAL_FRAMERATE;
@@ -118,20 +121,26 @@ int main()
         else if (IsKeyPressed(KEY_O)) {
             // Navigate materials right to left
             if (CURRENT_MATERIAL == SAND_NAME) {
-                CURRENT_MATERIAL = "TODO";
+                CURRENT_MATERIAL = EMPTY_NAME;
                 simulation.SetMaterialType(EMPTY_TYPE);
-            } else {
+            } else if (CURRENT_MATERIAL == STONE_NAME) {
                 CURRENT_MATERIAL = SAND_NAME;
                 simulation.SetMaterialType(SAND_TYPE);
+            } else {
+                CURRENT_MATERIAL = STONE_NAME;
+                simulation.SetMaterialType(STONE_TYPE);
             }
         }
         else if (IsKeyPressed(KEY_P)) {
             // Navigate materials left to right
-            if (CURRENT_MATERIAL == "TODO") {
+            if (CURRENT_MATERIAL == EMPTY_NAME) {
                 CURRENT_MATERIAL = SAND_NAME;
                 simulation.SetMaterialType(SAND_TYPE);
+            } else if (CURRENT_MATERIAL == SAND_NAME) {
+                CURRENT_MATERIAL = STONE_NAME;
+                simulation.SetMaterialType(STONE_TYPE);
             } else {
-                CURRENT_MATERIAL = "TODO";
+                CURRENT_MATERIAL = EMPTY_NAME;
                 simulation.SetMaterialType(EMPTY_TYPE);
             }
         }

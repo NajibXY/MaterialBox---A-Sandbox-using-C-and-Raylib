@@ -71,6 +71,9 @@ void Grid::DrawGrid(bool running) {
                         color = ORANGE;
                     } 
                     break;
+                case 2:
+                    color = GRAY;
+                    break;
                 default :
                     color = BLACK;
                     break; 
@@ -128,15 +131,30 @@ void Grid::DrawMaterial(int x, int y, bool running) {
         } else {
             materialToDraw = SAND_TYPE_3;
         }
+    } else if (materialType == STONE_TYPE) {
+        materialToDraw = STONE_TYPE;
     }
     // todo
     // Add some drawing constraints logic ?
-    SetCell(x, y, materialToDraw);
-    if (IsInBounds(x, y) && running) {
-        // SetCell(x+1, y+1, materialToDraw);
-        // SetCell(x+1, y-1, materialToDraw);
-        SetCell(x+1, y+1, materialToDraw);
+    if (running && IsInBounds(x, y)) {
+        if (materialType == SAND_TYPE) {
+            SetCell(x, y, materialToDraw);
+            SetCell(x+1, y-1, materialToDraw);
+            SetCell(x+1, y+1, materialToDraw); 
+        }
+        else if (materialType == STONE_TYPE) {
+            SetCell(x, y, materialToDraw);
+            SetCell(x, y+1, materialToDraw);
+            SetCell(x+1, y, materialToDraw);
+            SetCell(x+1, y+1, materialToDraw); 
+        }
+    } else if (IsInBounds(x, y)) {
+        SetCell(x, y, materialToDraw);
+        SetCell(x, y+1, materialToDraw);
+        SetCell(x+1, y, materialToDraw);
+        SetCell(x+1, y+1, materialToDraw); 
     }
+    
 
     // if (IsInBounds(x, y)) {
     //     if (shapeIndex == 3) {
