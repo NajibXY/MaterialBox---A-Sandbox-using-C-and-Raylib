@@ -69,6 +69,42 @@ void Simulation::Update() {
     // Apply Sand Logic
     UpdateSandLogic();
     UpdateAcidLogic();
+    UpdateStoneLogic();
+}
+
+// -------------------------------------------- STONE LOGIC --------------------------------------------
+void Simulation::UpdateStoneLogic() {
+    int number_of_stone_grains = 0;
+    // Create a new grid to store the updated values
+    Grid newGrid = grid;
+    int firstHalf = grid.GetColumns()/2;
+    for (int i = 0; i < grid.GetRows(); i++) {
+        for (int j = 0; j < firstHalf; j++) {
+            if (grid.GetCell(i, j) ==  STONE_TYPE_1 || grid.GetCell(i, j) ==  STONE_TYPE_2) {
+                UpdateStoneLogicOnCell(i, j, newGrid);
+                number_of_stone_grains++;
+            }
+        }
+    }
+    for (int i = 0; i < grid.GetRows(); i++) {
+        for (int j = grid.GetColumns()-1; j >= firstHalf; j--) {
+            if (grid.GetCell(i, j) ==  STONE_TYPE_1 || grid.GetCell(i, j) ==  STONE_TYPE_2) {
+                UpdateStoneLogicOnCell(i, j, newGrid);
+                number_of_stone_grains++;
+            }
+        }
+    }
+    // Update the grid with the new values
+    grid = newGrid;
+    std::cout << "Number of Stone grains: " << number_of_stone_grains << std::endl;
+}
+
+void Simulation::UpdateStoneLogicOnCell(int x, int y, Grid& newGrid) {
+    // If the cell is stone
+    // Check if Acid below or at the sides
+    if (newGrid.IsAcid(x + 1, y) || newGrid.IsAcid(x + 1, y - 1) || newGrid.IsAcid(x + 1, y + 1) || newGrid.IsAcid(x, y - 1) || newGrid.IsAcid(x, y + 1)) {
+        newGrid.SetCell(x, y, EMPTY_TYPE);
+    }
 }
 
 // -------------------------------------------- SAND LOGIC --------------------------------------------
@@ -105,16 +141,19 @@ void Simulation::UpdateSandLogic() {
     }
     // Update the grid with the new values
     grid = newGrid;
-    std::cout << "Number of sand grains: " << number_of_sand_grains << std::endl;
+    std::cout << "Number of Sand grains: " << number_of_sand_grains << std::endl;
 }
 
 void Simulation::UpdateSandLogicOnCell(int x, int y, Grid& newGrid) {
     // If the cell is sand
+    // Check if Acid below or at the sides
+    if (newGrid.IsAcid(x + 1, y) || newGrid.IsAcid(x + 1, y - 1) || newGrid.IsAcid(x + 1, y + 1) || newGrid.IsAcid(x, y - 1) || newGrid.IsAcid(x, y + 1)) {
+        newGrid.SetCell(x, y, EMPTY_TYPE);
+    }
     // Check if the cell is not at the limit of the grid
-    if (!newGrid.IsAtBottomLimit(x, y) || newGrid.IsEmpty(x + 1, y)) {
+    else if (!newGrid.IsAtBottomLimit(x, y) || newGrid.IsEmpty(x + 1, y)) { 
+        // Empty below
         // Check if the cell below is empty or below right or below left
-        // Reset initial cell & 
-        // Apply random sand type to future cell
         if (newGrid.IsEmpty(x + 1, y)) {
             newGrid.SetCell(x, y, EMPTY_TYPE);
             newGrid.SetCell(x + 1, y, GetRandomSandValue());
@@ -163,40 +202,37 @@ void Simulation::UpdateAcidLogic() {
     }
     // Update the grid with the new values
     grid = newGrid;
-    std::cout << "Number of acid grains: " << number_of_acid_grains << std::endl;
+    std::cout << "Number of Acid grains: " << number_of_acid_grains << std::endl;
 }
 
 void Simulation::UpdateAcidLogicOnCell(int x, int y, Grid& newGrid) {
     // Check if the cell is not at the limit of the grid
-    if (!newGrid.IsAtBottomLimit(x, y) || newGrid.IsEmpty(x + 1, y)) {
-        // Check if the cell below is empty or below right or below left
-        // Reset initial cell & 
-        // Same movement as sand
-        // Acid effects
-        if (newGrid.IsInBounds(x + 1, y) && newGrid.GetCell(x + 1, y) != ACID_TYPE_1 && newGrid.GetCell(x + 1, y) != ACID_TYPE_2){
-            newGrid.SetCell(x, y, EMPTY_TYPE);
-            newGrid.SetCell(x + 1, y, GetRandomAcidValue());
-        } else if (newGrid.IsInBounds(x + 1, y - 1) && newGrid.IsInBounds(x + 1, y + 1) 
-            && newGrid.GetCell(x + 1, y - 1) != ACID_TYPE_1 && newGrid.GetCell(x + 1, y - 1) != ACID_TYPE_2 
-            && newGrid.GetCell(x + 1, y + 1) != ACID_TYPE_1 && newGrid.GetCell(x + 1, y + 1) != ACID_TYPE_2) {
-            int randomDirection = GetRandomValue(0, 1);
-            if (randomDirection == 0) {
-                newGrid.SetCell(x, y, EMPTY_TYPE);
-                newGrid.SetCell(x + 1, y - 1, GetRandomAcidValue());
-            } else {
-                newGrid.SetCell(x, y, EMPTY_TYPE);
-                newGrid.SetCell(x + 1, y + 1, GetRandomAcidValue());
-            }
-        } else if (newGrid.IsInBounds(x + 1, y - 1) && newGrid.GetCell(x + 1, y - 1) != ACID_TYPE_1 && newGrid.GetCell(x + 1, y - 1) != ACID_TYPE_2) {
+    // Check if the cell below is empty or below right or below left
+    // Reset initial cell & 
+    // Same movement as sand
+    // Acid effects on below
+    if (newGrid.IsInBounds(x + 1, y) && newGrid.GetCell(x + 1, y) != ACID_TYPE_1 && newGrid.GetCell(x + 1, y) != ACID_TYPE_2){
+        newGrid.SetCell(x, y, EMPTY_TYPE);
+        newGrid.SetCell(x + 1, y, GetRandomAcidValue());
+    } else if (newGrid.IsInBounds(x + 1, y - 1) && newGrid.IsInBounds(x + 1, y + 1) 
+        && newGrid.GetCell(x + 1, y - 1) != ACID_TYPE_1 && newGrid.GetCell(x + 1, y - 1) != ACID_TYPE_2 
+        && newGrid.GetCell(x + 1, y + 1) != ACID_TYPE_1 && newGrid.GetCell(x + 1, y + 1) != ACID_TYPE_2) {
+        int randomDirection = GetRandomValue(0, 1);
+        if (randomDirection == 0) {
             newGrid.SetCell(x, y, EMPTY_TYPE);
             newGrid.SetCell(x + 1, y - 1, GetRandomAcidValue());
-        } else if (newGrid.IsInBounds(x + 1, y + 1) && newGrid.GetCell(x + 1, y + 1) != ACID_TYPE_1 && newGrid.GetCell(x + 1, y + 1) != ACID_TYPE_2) {
+        } else {
             newGrid.SetCell(x, y, EMPTY_TYPE);
             newGrid.SetCell(x + 1, y + 1, GetRandomAcidValue());
         }
-    } 
+    } else if (newGrid.IsInBounds(x + 1, y - 1) && newGrid.GetCell(x + 1, y - 1) != ACID_TYPE_1 && newGrid.GetCell(x + 1, y - 1) != ACID_TYPE_2) {
+        newGrid.SetCell(x, y, EMPTY_TYPE);
+        newGrid.SetCell(x + 1, y - 1, GetRandomAcidValue());
+    } else if (newGrid.IsInBounds(x + 1, y + 1) && newGrid.GetCell(x + 1, y + 1) != ACID_TYPE_1 && newGrid.GetCell(x + 1, y + 1) != ACID_TYPE_2) {
+        newGrid.SetCell(x, y, EMPTY_TYPE);
+        newGrid.SetCell(x + 1, y + 1, GetRandomAcidValue());
+    }
 }
-
 
 // -------------------------------------------- Randomizers --------------------------------------------
 

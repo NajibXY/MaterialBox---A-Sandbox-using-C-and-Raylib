@@ -42,7 +42,9 @@ class Simulation {
         int GetRandomSandValue();
         int GetRandomAcidValue();
         void UpdateSandLogic();
-        void UpdateSandLogicOnCell(int x, int y, Grid& newGrid);        
+        void UpdateSandLogicOnCell(int x, int y, Grid& newGrid);  
         void UpdateAcidLogic();
         void UpdateAcidLogicOnCell(int x, int y, Grid& newGrid);
+        void UpdateStoneLogic();
+        void UpdateStoneLogicOnCell(int x, int y, Grid& newGrid);
 };

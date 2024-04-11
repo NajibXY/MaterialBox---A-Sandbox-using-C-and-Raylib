@@ -28,6 +28,10 @@ bool Grid::IsAtBottomLimit(int x, int y) {
     return x == rows - 1;
 }
 
+bool Grid::IsAcid(int x, int y) {
+    return (IsInBounds(x,y) && (cells[x][y] == ACID_TYPE_1 || cells[x][y] == ACID_TYPE_2));
+}
+
 int Grid::GetCell(int x, int y) {
     // if(!IsInBounds(x, y)) {
     //     // Wrap around toroidal coordinates
@@ -105,14 +109,12 @@ void Grid::Randomize() {
             //todo randomize types
             int random = randomRate > 0 ? GetRandomValue(0, randomRate - 1) : 1;
             if (random == 0) {
-                random = GetRandomValue(0, 2);
+                random = GetRandomValue(0, 4);
                 if (random == 0) {
-                    cells[i][j] = GetRandomSandValue();
-                } else if (random == 1){
                     //todo construct stone structures ?
                     cells[i][j] = GetRandomStoneValue();
-                }  else {
-                    cells[i][j] = GetRandomAcidValue();
+                } else {
+                    cells[i][j] = GetRandomSandValue();
                 }
             } else {
                 cells[i][j] = EMPTY_TYPE;
@@ -159,16 +161,25 @@ void Grid::DrawMaterial(int x, int y, bool running) {
     // todo
     // Add some drawing constraints logic ?
     if (running && IsInBounds(x, y)) {
-        if (materialType == SAND_TYPE || materialType == ACID_TYPE) {
+        if (materialType == SAND_TYPE) {
             SetCell(x, y, materialToDraw);
             SetCell(x+1, y-1, materialToDraw);
             SetCell(x+1, y+1, materialToDraw); 
+        }
+        else if (materialType == ACID_TYPE) {
+            SetCell(x, y, materialToDraw);
         }
         else if (materialType == STONE_TYPE) {
             SetCell(x, y, materialToDraw);
             SetCell(x, y+1, materialToDraw);
             SetCell(x+1, y, materialToDraw);
             SetCell(x+1, y+1, materialToDraw); 
+        }
+        else {
+            SetCell(x, y, materialToDraw);
+            SetCell(x, y+1, materialToDraw);
+            SetCell(x+1, y, materialToDraw);
+            SetCell(x+1, y+1, materialToDraw);
         }
     } else if (IsInBounds(x, y)) {
         SetCell(x, y, materialToDraw);

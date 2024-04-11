@@ -42,6 +42,7 @@ class Grid {
         bool IsAtRightLimit(int x, int y);
         bool IsAtTopLimit(int x, int y);
         bool IsAtBottomLimit(int x, int y);
+        bool IsAcid(int x, int y);
         int GetCell(int x, int y);
         void SetCell(int x, int y, int value);
 
