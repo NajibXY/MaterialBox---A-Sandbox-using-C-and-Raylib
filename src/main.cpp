@@ -12,12 +12,16 @@ extern const int SAND_TYPE_1 = 11;
 extern const int SAND_TYPE_2 = 12;
 extern const int SAND_TYPE_3 = 13;
 extern const int STONE_TYPE = 2;
+extern const int STONE_TYPE_1 = 21;
+extern const int STONE_TYPE_2 = 22;
+extern const int ACID_TYPE= 3;
+
 
 const int MENU_W = 420;
 const int WIDTH_W = 1300; // MAX 1920 - 420 = 1500
 const int HEIGHT_W = 900; // MAX 1080
 const int CELL_DIM = 6;
-const int INITIAL_RANDOM_RATE = 4;
+const int INITIAL_RANDOM_RATE = 3;
 const int INITIAL_FRAMERATE = 60;
 const int MAX_FRAMERATE = 1000;
 const int SUBMAX_FRAMERATE = 640;

@@ -70,15 +70,21 @@ void Grid::DrawGrid(bool running) {
                     } else {
                         color = ORANGE;
                     } 
+                    DrawRectangle(j*cellDim, i*cellDim, cellDim, cellDim, color);
                     break;
-                case 2:
-                    color = GRAY;
+                case 21: case 22:
+                    if (cells[i][j] == STONE_TYPE_1) {
+                        color = DARKGRAY;
+                    } else {
+                        color = GRAY;
+                    }
+                    DrawRectangle(j*cellDim, i*cellDim, cellDim-1, cellDim-1, color);
                     break;
                 default :
                     color = BLACK;
+                    DrawRectangle(j*cellDim, i*cellDim, cellDim, cellDim, color);
                     break; 
             }
-            DrawRectangle(j*cellDim, i*cellDim, cellDim-1, cellDim-1, color);
         }
     }
     
@@ -90,7 +96,13 @@ void Grid::Randomize() {
             //todo randomize types
             int random = randomRate > 0 ? GetRandomValue(0, randomRate - 1) : 1;
             if (random == 0) {
-                cells[i][j] = GetRandomSandValue();
+                random = GetRandomValue(0, 1);
+                if (random == 0) {
+                    cells[i][j] = GetRandomSandValue();
+                } else {
+                    //todo construct stone structures ?
+                    cells[i][j] = GetRandomStoneValue();
+                } 
             } else {
                 cells[i][j] = EMPTY_TYPE;
             }
@@ -106,19 +118,6 @@ void Grid::Clear() {
     }
 }
 
-int Grid::GetRandomSandValue() {
-    // Get a random sand type
-    int randomSand = GetRandomValue(0, 2);
-    if (randomSand == 0) {
-        return SAND_TYPE_1;
-    } else if (randomSand == 1) {
-        return SAND_TYPE_2;
-    } else {
-        return SAND_TYPE_3;
-    }
-    return SAND_TYPE_1;
-}
-
 void Grid::DrawMaterial(int x, int y, bool running) {
     //todo add more materials
     int materialToDraw = EMPTY_TYPE;
@@ -132,7 +131,12 @@ void Grid::DrawMaterial(int x, int y, bool running) {
             materialToDraw = SAND_TYPE_3;
         }
     } else if (materialType == STONE_TYPE) {
-        materialToDraw = STONE_TYPE;
+        int random = GetRandomValue(0, 1);
+        if (random == 0) {
+            materialToDraw = STONE_TYPE_1;
+        } else if (random == 1) {
+            materialToDraw = STONE_TYPE_2;
+        }
     }
     // todo
     // Add some drawing constraints logic ?
@@ -290,4 +294,28 @@ void Grid::DrawMaterial(int x, int y, bool running) {
     //         SetCell((x + 6) % rows, (y + 7) % columns, 1);
     //     }
     // }
+}
+
+int Grid::GetRandomSandValue() {
+    // Get a random sand type
+    int randomSand = GetRandomValue(0, 2);
+    if (randomSand == 0) {
+        return SAND_TYPE_1;
+    } else if (randomSand == 1) {
+        return SAND_TYPE_2;
+    } else {
+        return SAND_TYPE_3;
+    }
+    return SAND_TYPE_1;
+}
+
+int Grid::GetRandomStoneValue() {
+    // Get a random sand type
+    int randomStone = GetRandomValue(0, 1);
+    if (randomStone == 0) {
+        return STONE_TYPE_1;
+    } else {
+        return STONE_TYPE_2;
+    }
+    return STONE_TYPE_1;
 }

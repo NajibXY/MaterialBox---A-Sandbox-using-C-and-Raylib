@@ -12,5 +12,5 @@
 
 - Add a velocityGrid !
 
-- Randomize left right
-- Stone acts like limits 
++ Randomize left right
++ Stone acts like limits 

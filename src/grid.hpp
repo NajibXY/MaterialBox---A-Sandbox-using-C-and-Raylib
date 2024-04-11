@@ -3,10 +3,13 @@
 
 extern const int EMPTY_TYPE;
 extern const int SAND_TYPE;
-extern const int STONE_TYPE;
 extern const int SAND_TYPE_1;
 extern const int SAND_TYPE_2;
 extern const int SAND_TYPE_3;
+extern const int STONE_TYPE;
+extern const int STONE_TYPE_1;
+extern const int STONE_TYPE_2;
+
 class Grid {
     private :
         int rows;
@@ -47,5 +50,6 @@ class Grid {
         // Drawing materials
         void DrawMaterial(int x, int y, bool running);
         int GetRandomSandValue();
+        int GetRandomStoneValue();
 
 };
