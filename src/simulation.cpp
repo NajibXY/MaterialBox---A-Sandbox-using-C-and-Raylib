@@ -231,6 +231,20 @@ void Simulation::UpdateAcidLogicOnCell(int x, int y, Grid& newGrid) {
     } else if (newGrid.IsInBounds(x + 1, y + 1) && newGrid.GetCell(x + 1, y + 1) != ACID_TYPE_1 && newGrid.GetCell(x + 1, y + 1) != ACID_TYPE_2) {
         newGrid.SetCell(x, y, EMPTY_TYPE);
         newGrid.SetCell(x + 1, y + 1, GetRandomAcidValue());
+    } else if (!newGrid.IsAtLimit(x, y) 
+    && newGrid.IsInBounds(x, y + 1) && newGrid.GetCell(x, y + 1) != ACID_TYPE_1 && newGrid.GetCell(x, y + 1) != ACID_TYPE_2) {
+        int random = GetRandomValue(0, 10);
+        if (random == 0) {
+            newGrid.SetCell(x, y, EMPTY_TYPE);
+            newGrid.SetCell(x, y + 1, GetRandomAcidValue());
+        }
+    } else if (!newGrid.IsAtLimit(x, y) 
+    && newGrid.IsInBounds(x, y - 1) && newGrid.GetCell(x, y - 1) != ACID_TYPE_1 && newGrid.GetCell(x, y - 1) != ACID_TYPE_2) {
+        int random = GetRandomValue(0, 10);
+        if (random == 0) {
+            newGrid.SetCell(x, y, EMPTY_TYPE);
+            newGrid.SetCell(x, y - 1, GetRandomAcidValue());
+        }
     }
 }
 
