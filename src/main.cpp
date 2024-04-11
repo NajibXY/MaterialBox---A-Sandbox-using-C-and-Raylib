@@ -11,18 +11,28 @@ extern const int SAND_TYPE = 1;
 extern const int SAND_TYPE_1 = 11;
 extern const int SAND_TYPE_2 = 12;
 extern const int SAND_TYPE_3 = 13;
+extern const int STONE_TYPE = 2;
+extern const int STONE_TYPE_1 = 21;
+extern const int STONE_TYPE_2 = 22;
+extern const int ACID_TYPE = 3;
+extern const int ACID_TYPE_1 = 31;
+extern const int ACID_TYPE_2 = 32;
+
 
 const int MENU_W = 420;
 const int WIDTH_W = 1300; // MAX 1920 - 420 = 1500
 const int HEIGHT_W = 900; // MAX 1080
 const int CELL_DIM = 6;
-const int INITIAL_RANDOM_RATE = 4;
+const int INITIAL_RANDOM_RATE = 3;
 const int INITIAL_FRAMERATE = 60;
 const int MAX_FRAMERATE = 1000;
 const int SUBMAX_FRAMERATE = 640;
 const int MIN_FRAMERATE =  30;
 //todo add shapes
 const std::string SAND_NAME = "SAND";
+const std::string EMPTY_NAME = "EMPTY";
+const std::string STONE_NAME = "STONE";
+const std::string ACID_NAME = "ACID";
 
 // Simulation variables
 int FRAMERATE = INITIAL_FRAMERATE;
@@ -117,22 +127,40 @@ int main()
         }
         else if (IsKeyPressed(KEY_O)) {
             // Navigate materials right to left
-            if (CURRENT_MATERIAL == SAND_NAME) {
-                CURRENT_MATERIAL = "TODO";
-                simulation.SetMaterialType(EMPTY_TYPE);
-            } else {
+            if (CURRENT_MATERIAL == EMPTY_NAME) {
+                CURRENT_MATERIAL = ACID_NAME;
+                simulation.SetMaterialType(ACID_TYPE);
+            } else if (CURRENT_MATERIAL == ACID_NAME) {
+                CURRENT_MATERIAL = STONE_NAME;
+                simulation.SetMaterialType(STONE_TYPE);
+            } else if (CURRENT_MATERIAL == STONE_NAME){
                 CURRENT_MATERIAL = SAND_NAME;
                 simulation.SetMaterialType(SAND_TYPE);
+            } else if (CURRENT_MATERIAL == SAND_NAME){
+                CURRENT_MATERIAL = EMPTY_NAME;
+                simulation.SetMaterialType(EMPTY_TYPE);
+            } else {
+                CURRENT_MATERIAL = ACID_NAME;
+                simulation.SetMaterialType(ACID_TYPE);
             }
         }
         else if (IsKeyPressed(KEY_P)) {
             // Navigate materials left to right
-            if (CURRENT_MATERIAL == "TODO") {
+            if (CURRENT_MATERIAL == EMPTY_NAME) {
                 CURRENT_MATERIAL = SAND_NAME;
                 simulation.SetMaterialType(SAND_TYPE);
-            } else {
-                CURRENT_MATERIAL = "TODO";
+            } else if (CURRENT_MATERIAL == SAND_NAME) {
+                CURRENT_MATERIAL = STONE_NAME;
+                simulation.SetMaterialType(STONE_TYPE);
+            } else if (CURRENT_MATERIAL == STONE_NAME){
+                CURRENT_MATERIAL = ACID_NAME;
+                simulation.SetMaterialType(ACID_TYPE);
+            } else if (CURRENT_MATERIAL == ACID_NAME){
+                CURRENT_MATERIAL = EMPTY_NAME;
                 simulation.SetMaterialType(EMPTY_TYPE);
+            } else {
+                CURRENT_MATERIAL = SAND_NAME;
+                simulation.SetMaterialType(SAND_TYPE);
             }
         }
 

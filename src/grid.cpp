@@ -28,6 +28,10 @@ bool Grid::IsAtBottomLimit(int x, int y) {
     return x == rows - 1;
 }
 
+bool Grid::IsAcid(int x, int y) {
+    return (IsInBounds(x,y) && (cells[x][y] == ACID_TYPE_1 || cells[x][y] == ACID_TYPE_2));
+}
+
 int Grid::GetCell(int x, int y) {
     // if(!IsInBounds(x, y)) {
     //     // Wrap around toroidal coordinates
@@ -46,7 +50,7 @@ bool Grid::IsEmpty(int x, int y) {
 }
 
 void Grid::SetCell(int x, int y, int value) {
-    if(IsInBounds(x, y) &&  IsEmpty(x, y)) {
+    if(IsInBounds(x, y) &&  (IsEmpty(x, y) || value == ACID_TYPE_1 || value == ACID_TYPE_2)) {
         cells[x][y] = value;
     } else if (IsInBounds(x, y) && value == EMPTY_TYPE) {
         cells[x][y] = value;
@@ -70,12 +74,30 @@ void Grid::DrawGrid(bool running) {
                     } else {
                         color = ORANGE;
                     } 
+                    DrawRectangle(j*cellDim, i*cellDim, cellDim, cellDim, color);
+                    break;
+                case 21: case 22:
+                    if (cells[i][j] == STONE_TYPE_1) {
+                        color = DARKGRAY;
+                    } else {
+                        color = GRAY;
+                    }
+                    DrawRectangle(j*cellDim, i*cellDim, cellDim-1, cellDim-1, color);
+                    break;
+                case 31: case 32:
+                    if (cells[i][j] == ACID_TYPE_1) {
+                        // color = Color{184, 218, 50, 255};
+                        color = Color{87, 218, 50, 255};
+                    } else {
+                        color = LIME;
+                    }
+                    DrawRectangle(j*cellDim, i*cellDim, cellDim, cellDim, color);
                     break;
                 default :
                     color = BLACK;
+                    DrawRectangle(j*cellDim, i*cellDim, cellDim, cellDim, color);
                     break; 
             }
-            DrawRectangle(j*cellDim, i*cellDim, cellDim-1, cellDim-1, color);
         }
     }
     
@@ -87,7 +109,13 @@ void Grid::Randomize() {
             //todo randomize types
             int random = randomRate > 0 ? GetRandomValue(0, randomRate - 1) : 1;
             if (random == 0) {
-                cells[i][j] = GetRandomSandValue();
+                random = GetRandomValue(0, 4);
+                if (random == 0) {
+                    //todo construct stone structures ?
+                    cells[i][j] = GetRandomStoneValue();
+                } else {
+                    cells[i][j] = GetRandomSandValue();
+                }
             } else {
                 cells[i][j] = EMPTY_TYPE;
             }
@@ -103,19 +131,6 @@ void Grid::Clear() {
     }
 }
 
-int Grid::GetRandomSandValue() {
-    // Get a random sand type
-    int randomSand = GetRandomValue(0, 2);
-    if (randomSand == 0) {
-        return SAND_TYPE_1;
-    } else if (randomSand == 1) {
-        return SAND_TYPE_2;
-    } else {
-        return SAND_TYPE_3;
-    }
-    return SAND_TYPE_1;
-}
-
 void Grid::DrawMaterial(int x, int y, bool running) {
     //todo add more materials
     int materialToDraw = EMPTY_TYPE;
@@ -128,15 +143,51 @@ void Grid::DrawMaterial(int x, int y, bool running) {
         } else {
             materialToDraw = SAND_TYPE_3;
         }
+    } else if (materialType == STONE_TYPE) {
+        int random = GetRandomValue(0, 1);
+        if (random == 0) {
+            materialToDraw = STONE_TYPE_1;
+        } else {
+            materialToDraw = STONE_TYPE_2;
+        }
+    } else if (materialType == ACID_TYPE) {
+        int random = GetRandomValue(0, 1);
+        if (random == 0) {
+            materialToDraw = ACID_TYPE_1;
+        } else {
+            materialToDraw = ACID_TYPE_2;
+        }
     }
     // todo
     // Add some drawing constraints logic ?
-    SetCell(x, y, materialToDraw);
-    if (IsInBounds(x, y) && running) {
-        // SetCell(x+1, y+1, materialToDraw);
-        // SetCell(x+1, y-1, materialToDraw);
-        SetCell(x+1, y+1, materialToDraw);
+    if (running && IsInBounds(x, y)) {
+        if (materialType == SAND_TYPE) {
+            SetCell(x, y, materialToDraw);
+            SetCell(x+1, y-1, materialToDraw);
+            SetCell(x+1, y+1, materialToDraw); 
+        }
+        else if (materialType == ACID_TYPE) {
+            SetCell(x, y, materialToDraw);
+        }
+        else if (materialType == STONE_TYPE) {
+            SetCell(x, y, materialToDraw);
+            SetCell(x, y+1, materialToDraw);
+            SetCell(x+1, y, materialToDraw);
+            SetCell(x+1, y+1, materialToDraw); 
+        }
+        else {
+            SetCell(x, y, materialToDraw);
+            SetCell(x, y+1, materialToDraw);
+            SetCell(x+1, y, materialToDraw);
+            SetCell(x+1, y+1, materialToDraw);
+        }
+    } else if (IsInBounds(x, y)) {
+        SetCell(x, y, materialToDraw);
+        SetCell(x, y+1, materialToDraw);
+        SetCell(x+1, y, materialToDraw);
+        SetCell(x+1, y+1, materialToDraw); 
     }
+    
 
     // if (IsInBounds(x, y)) {
     //     if (shapeIndex == 3) {
@@ -272,4 +323,39 @@ void Grid::DrawMaterial(int x, int y, bool running) {
     //         SetCell((x + 6) % rows, (y + 7) % columns, 1);
     //     }
     // }
+}
+
+int Grid::GetRandomSandValue() {
+    // Get a random sand type
+    int randomSand = GetRandomValue(0, 2);
+    if (randomSand == 0) {
+        return SAND_TYPE_1;
+    } else if (randomSand == 1) {
+        return SAND_TYPE_2;
+    } else {
+        return SAND_TYPE_3;
+    }
+    return SAND_TYPE_1;
+}
+
+int Grid::GetRandomStoneValue() {
+    // Get a random sand type
+    int randomStone = GetRandomValue(0, 1);
+    if (randomStone == 0) {
+        return STONE_TYPE_1;
+    } else {
+        return STONE_TYPE_2;
+    }
+    return STONE_TYPE_1;
+}
+
+int Grid::GetRandomAcidValue() {
+    // Get a random sand type
+    int randomAcid = GetRandomValue(0, 1);
+    if (randomAcid == 0) {
+        return ACID_TYPE_1;
+    } else {
+        return ACID_TYPE_2;
+    }
+    return ACID_TYPE_1;
 }
