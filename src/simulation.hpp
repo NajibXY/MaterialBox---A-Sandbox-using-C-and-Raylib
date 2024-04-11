@@ -9,6 +9,9 @@ extern const int SAND_TYPE_3;
 extern const int STONE_TYPE;
 extern const int STONE_TYPE_1;
 extern const int STONE_TYPE_2;
+extern const int ACID_TYPE;
+extern const int ACID_TYPE_1;
+extern const int ACID_TYPE_2;
 
 class Simulation {
     private :
@@ -17,7 +20,7 @@ class Simulation {
         
     public :
         Simulation(int width, int height, int cellDim, int randomRate): 
-            grid(width, height, cellDim, randomRate), running(false)
+            grid(width, height, cellDim, randomRate), running(true)
             {};
 
         // Getters and setters
@@ -37,6 +40,9 @@ class Simulation {
         int CountLiveNeighbours(int x, int y);
         void Update();
         int GetRandomSandValue();
+        int GetRandomAcidValue();
         void UpdateSandLogic();
-        void UpdateSandLogicOnCell(int x, int y, Grid& newGrid);
+        void UpdateSandLogicOnCell(int x, int y, Grid& newGrid);        
+        void UpdateAcidLogic();
+        void UpdateAcidLogicOnCell(int x, int y, Grid& newGrid);
 };
