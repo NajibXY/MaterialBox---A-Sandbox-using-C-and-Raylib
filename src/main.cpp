@@ -38,6 +38,7 @@ const std::string ACID_NAME = "ACID";
 int FRAMERATE = INITIAL_FRAMERATE;
 int RANDOM_RATE = INITIAL_RANDOM_RATE;
 std::string CURRENT_MATERIAL = SAND_NAME;
+Color CURRENT_MATERIAL_TEXT_COLOR = GOLD;
 std::string SIMULATION_STATUS = "Initialized";
 
 void DrawControlText() {
@@ -63,10 +64,10 @@ void DrawControlText() {
     DrawText("E : Clear grid", WIDTH_W+30, 30*i, 20, YELLOW);
     i+=2;
     // Shape controls
-    DrawText("O & P to navigate materials", WIDTH_W+30, 30*i, 20, WHITE);
+    DrawText("   O & P to navigate materials", WIDTH_W+30, 30*i, 20, WHITE);
     i++;
-    DrawText(("     < "+CURRENT_MATERIAL+" >     ").c_str(), WIDTH_W+30, 30*i, 20, RED);
-    i++;
+    DrawText(("   < "+CURRENT_MATERIAL+" >     ").c_str(), WIDTH_W+30, 30*i, 40, CURRENT_MATERIAL_TEXT_COLOR);
+    i+=3;
     DrawText("Left click (hold) : Draw material", WIDTH_W+30, 30*i, 20, GREEN);
     i++;
 
@@ -129,18 +130,23 @@ int main()
             // Navigate materials right to left
             if (CURRENT_MATERIAL == EMPTY_NAME) {
                 CURRENT_MATERIAL = ACID_NAME;
+                CURRENT_MATERIAL_TEXT_COLOR = LIME;
                 simulation.SetMaterialType(ACID_TYPE);
             } else if (CURRENT_MATERIAL == ACID_NAME) {
                 CURRENT_MATERIAL = STONE_NAME;
+                CURRENT_MATERIAL_TEXT_COLOR = WHITE;
                 simulation.SetMaterialType(STONE_TYPE);
             } else if (CURRENT_MATERIAL == STONE_NAME){
                 CURRENT_MATERIAL = SAND_NAME;
+                CURRENT_MATERIAL_TEXT_COLOR = GOLD;
                 simulation.SetMaterialType(SAND_TYPE);
             } else if (CURRENT_MATERIAL == SAND_NAME){
                 CURRENT_MATERIAL = EMPTY_NAME;
+                CURRENT_MATERIAL_TEXT_COLOR = RED;
                 simulation.SetMaterialType(EMPTY_TYPE);
             } else {
                 CURRENT_MATERIAL = ACID_NAME;
+                CURRENT_MATERIAL_TEXT_COLOR = LIME;
                 simulation.SetMaterialType(ACID_TYPE);
             }
         }
@@ -148,18 +154,23 @@ int main()
             // Navigate materials left to right
             if (CURRENT_MATERIAL == EMPTY_NAME) {
                 CURRENT_MATERIAL = SAND_NAME;
+                CURRENT_MATERIAL_TEXT_COLOR = GOLD;
                 simulation.SetMaterialType(SAND_TYPE);
             } else if (CURRENT_MATERIAL == SAND_NAME) {
                 CURRENT_MATERIAL = STONE_NAME;
+                CURRENT_MATERIAL_TEXT_COLOR = WHITE;
                 simulation.SetMaterialType(STONE_TYPE);
             } else if (CURRENT_MATERIAL == STONE_NAME){
                 CURRENT_MATERIAL = ACID_NAME;
+                CURRENT_MATERIAL_TEXT_COLOR = LIME;
                 simulation.SetMaterialType(ACID_TYPE);
             } else if (CURRENT_MATERIAL == ACID_NAME){
                 CURRENT_MATERIAL = EMPTY_NAME;
+                CURRENT_MATERIAL_TEXT_COLOR = RED;
                 simulation.SetMaterialType(EMPTY_TYPE);
             } else {
                 CURRENT_MATERIAL = SAND_NAME;
+                CURRENT_MATERIAL_TEXT_COLOR = GOLD;
                 simulation.SetMaterialType(SAND_TYPE);
             }
         }
