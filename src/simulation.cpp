@@ -78,7 +78,7 @@ void Simulation::UpdateStoneLogic() {
     // Create a new grid to store the updated values
     Grid newGrid = grid;
     int firstHalf = grid.GetColumns()/2;
-    for (int i = 0; i < grid.GetRows(); i++) {
+    for (int i = grid.GetRows() - 1; i > -1; i--) {
         for (int j = 0; j < firstHalf; j++) {
             if (grid.GetCell(i, j) ==  STONE_TYPE_1 || grid.GetCell(i, j) ==  STONE_TYPE_2) {
                 UpdateStoneLogicOnCell(i, j, newGrid);
@@ -86,7 +86,7 @@ void Simulation::UpdateStoneLogic() {
             }
         }
     }
-    for (int i = 0; i < grid.GetRows(); i++) {
+    for (int i = grid.GetRows() - 1; i > -1; i--) {
         for (int j = grid.GetColumns()-1; j >= firstHalf; j--) {
             if (grid.GetCell(i, j) ==  STONE_TYPE_1 || grid.GetCell(i, j) ==  STONE_TYPE_2) {
                 UpdateStoneLogicOnCell(i, j, newGrid);
@@ -126,7 +126,7 @@ void Simulation::UpdateSandLogic() {
     //     }
     // }
     int firstHalf = grid.GetColumns()/2;
-    for (int i = 0; i < grid.GetRows(); i++) {
+    for (int i = grid.GetRows() - 1; i > -1; i--) {
         for (int j = 0; j < firstHalf; j++) {
             if (grid.GetCell(i, j) ==  SAND_TYPE_1 || grid.GetCell(i, j) ==  SAND_TYPE_2 || grid.GetCell(i, j) ==  SAND_TYPE_3) {
                 UpdateSandLogicOnCell(i, j, newGrid);
@@ -134,7 +134,7 @@ void Simulation::UpdateSandLogic() {
             }
         }
     }
-    for (int i = 0; i < grid.GetRows(); i++) {
+    for (int i = grid.GetRows() - 1; i > -1; i--) {
         for (int j = grid.GetColumns()-1; j >= firstHalf; j--) {
             if (grid.GetCell(i, j) ==  SAND_TYPE_1 || grid.GetCell(i, j) ==  SAND_TYPE_2 || grid.GetCell(i, j) ==  SAND_TYPE_3) {
                 UpdateSandLogicOnCell(i, j, newGrid);
@@ -190,7 +190,7 @@ void Simulation::UpdateAcidLogic() {
     Grid newGrid = grid;
 
     int firstHalf = grid.GetColumns()/2;
-    for (int i = 0; i < grid.GetRows(); i++) {
+    for (int i = grid.GetRows() - 1; i > -1; i--) {
         for (int j = 0; j < firstHalf; j++) {
             if (grid.GetCell(i, j) ==  ACID_TYPE_1 || grid.GetCell(i, j) ==  ACID_TYPE_2) {
                 UpdateAcidLogicOnCell(i, j, newGrid);
@@ -198,7 +198,7 @@ void Simulation::UpdateAcidLogic() {
             }
         }
     }
-    for (int i = 0; i < grid.GetRows(); i++) {
+    for (int i = grid.GetRows() - 1; i > -1; i--) {
         for (int j = grid.GetColumns()-1; j >= firstHalf; j--) {
             if (grid.GetCell(i, j) ==  ACID_TYPE_1 || grid.GetCell(i, j) ==  ACID_TYPE_2) {
                 UpdateAcidLogicOnCell(i, j, newGrid);
