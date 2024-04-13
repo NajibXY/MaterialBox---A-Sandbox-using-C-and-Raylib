@@ -6,8 +6,10 @@
 
 <img align="right" src="https://github.com/NajibXY/MaterialBox---A-Sandbox-using-C-and-Raylib/blob/master/assets/gifs/main.gif">
 
-Dans le cadre de mes expérimentations avec la bibliothèque Raylib et toujours sur le thème des automates cellulaires, j'ai repris mon projet de simulation de jeu de la vie ([Jeu de la vie en C++ avec la bibliothèque Raylib](https://github.com/NajibXY/Game-Of-Life-using-CPP-and-Raylib)) et j'en ai développé un autre projet : celui d'une sandbox interactive où l'utilisateur peut jouer avec différents matériaux; Cette sandbox permet de simuler plusieurs règles physiques et j'ai trouvé un malin plaisir à m'hypnotiser moi-même avec les rendus qu'elle peut proposer.
-</br> </br>
+Dans le cadre de mes expérimentations avec la bibliothèque Raylib et toujours sur le thème des automates cellulaires, j'ai repris mon projet de simulation de jeu de la vie ([Jeu de la vie en C++ avec la bibliothèque Raylib](https://github.com/NajibXY/Game-Of-Life-using-CPP-and-Raylib)) et j'en ai développé un autre projet : celui d'une sandbox interactive où l'utilisateur peut jouer avec différents matériaux. </br></br>
+Cette sandbox permet de simuler plusieurs règles physiques et j'ai trouvé un malin plaisir à m'hypnotiser moi-même avec les rendus qu'elle peut proposer.
+</br> </br> </br> </br>
+
 ## 2. Technologies utilisées
 
 - C++14
@@ -44,7 +46,7 @@ Dans le cadre de mes expérimentations avec la bibliothèque Raylib et toujours 
 
 - Forme des blocs statiques sur la grille du dessin 
 - Bloque le passage du sable
-- Se dissout progressivement dans l'acide   
+- Se dissout progressivement au contact de l'acide   
 ![](https://github.com/NajibXY/MaterialBox---A-Sandbox-using-C-and-Raylib/blob/master/assets/gifs/stone.gif)
 
 ### L'acide
@@ -60,6 +62,7 @@ Dans le cadre de mes expérimentations avec la bibliothèque Raylib et toujours 
 ## 5. Améliorations possibles
 
 - Rajouter plus de matériaux ! Et plus d'intéractions entre eux !!! (Feu, eau, gaz etc.)
+- Ajouter des sons lors de la sélection du matériau ; et rendre les boutons de sélection plus interactifs
 - Rendre la taille de la grille customizable
 - Ajouter une grille de vélocité permettant de donner de l'accélération aux particules des différents matériaux quand cela est pertinent
 - Utiliser des Classes et plus de programmation orientée objet au lieu des valeurs utilisées dans la grille principale de la simulation (même si la simulation actuellement est parfaitement conçue pour être fluide et performante)
