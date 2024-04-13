@@ -43,11 +43,12 @@ class Grid {
         bool IsAtTopLimit(int x, int y);
         bool IsAtBottomLimit(int x, int y);
         bool IsAcid(int x, int y);
+        bool IsStone(int x, int y);
         int GetCell(int x, int y);
         void SetCell(int x, int y, int value);
 
         // Global Drawing operations
-        void DrawGrid(bool running);
+        void DrawGrid();
         void Randomize();
         void Clear();
 
@@ -56,5 +57,6 @@ class Grid {
         int GetRandomSandValue();
         int GetRandomStoneValue();
         int GetRandomAcidValue();
+        void ConstructStoneStructure(int x, int y);
 
 };

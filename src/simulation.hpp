@@ -37,7 +37,6 @@ class Simulation {
         void SetCell(int x, int y, int value);
         
         // Simulation update logic
-        int CountLiveNeighbours(int x, int y);
         void Update();
         int GetRandomSandValue();
         int GetRandomAcidValue();

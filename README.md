@@ -2,16 +2,19 @@
 
 ## Memo of todos
 
-- Make stone draw structures (randomize with width etc and less random on main draw for stone) 
-- Show material colors in menu
-- Add an example dotexe in the end
-- Enhance clearing propagation
-- Adapt menu ("sim" -> "game" etc.)
-- Changer police
-- Add counters
-- Refactor to use pixels ? (dim = 1, drawpixel, and enhance draws with mouse)
 
-- Add a velocityGrid !
+- Add an example dotexe in the end
+- Add counters
 
 + Randomize left right
-+ Stone acts like limits 
++ Stone acts like limits  
++ Show material colors in menu
++ Enhance clearing propagation
++ Adapt menu ("sim" -> "game" etc.)
++ Make stone draw structures (randomize with width etc and less random on main draw for stone)
+
+## Enhancements
+
+- Refactor to use Array of Objects and not values
+- Make the "size of brush" customizable
+- Add a velocityGrid !

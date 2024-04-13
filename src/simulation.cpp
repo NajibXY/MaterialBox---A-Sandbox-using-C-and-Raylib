@@ -2,83 +2,59 @@
 #include <raylib.h>
 #include <iostream>
 
+// Draw the grid
 void Simulation::DrawGrid() {
-    grid.DrawGrid(running);
+    grid.DrawGrid();
 }
 
+// Randomize the grid
 void::Simulation::Randomize() {
-    // Randomize the grid
     grid.Randomize();
 }
 
+// Clear the grid
 void::Simulation::Clear() {
-    // Clear the grid
     grid.Clear();
 }
 
+// Set the random rate of the grid
 void::Simulation::SetRandomRate(int value) {
-    // Set the random rate of the grid
     grid.SetRandomRate(value);
 }
 
+// Set the shape index of the grid
 void::Simulation::SetMaterialType(int value) {
-    // Set the shape index of the grid
     grid.SetMaterialType(value);
 }
 
+// Draw the material near the specified coordinates
 void::Simulation::DrawMaterial(int x, int y) {
-    // Draw the material near the specified coordinates
     grid.DrawMaterial(x, y, running);
 }
 
+// Set the value of the cell at (x, y) in the grid
 void Simulation::SetCell(int x, int y, int value) {
-    // Set the value of the cell at (x, y) in the grid
     grid.SetCell(x, y, value);
 }
 
-int Simulation::CountLiveNeighbours(int x, int y) {
-    // Define the number of live neighbours
-    int liveNeighbours = 0;
-
-    // Define the coordinates of the neighbours in a TOROIDAL grid
-    int neighbourCoordinates[8][2] = {
-        {(x-1 + grid.GetRows()) % grid.GetRows(), (y-1 + grid.GetColumns()) % grid.GetColumns()},
-        {x, (y-1 + grid.GetColumns()) % grid.GetColumns()},
-        {(x+1) % grid.GetRows(), (y-1 + grid.GetColumns()) % grid.GetColumns()},
-        {(x-1 + grid.GetRows()) % grid.GetRows(), y},
-        {(x+1) % grid.GetRows(), y},
-        {(x-1 + grid.GetRows()) % grid.GetRows(), (y+1) % grid.GetColumns()},
-        {x, (y+1) % grid.GetColumns()},
-        {(x+1) % grid.GetRows(), (y+1) % grid.GetColumns()}
-    };
-
-    // Loop through the neighbours
-    for (int i = 0; i < 8; i++) {
-        // Get the coordinates of the neighbour and its value
-        liveNeighbours += grid.GetCell(neighbourCoordinates[i][0], neighbourCoordinates[i][1]);
-    }
-
-    // Return the number of live neighbours
-    return liveNeighbours;
-}
-
+// Update the simulation
 void Simulation::Update() {
-    // Create a new grid to store the updated values
-    // todo 
     // Order of logics is important 
-    // Apply Sand Logic
     UpdateSandLogic();
     UpdateAcidLogic();
     UpdateStoneLogic();
 }
 
 // -------------------------------------------- STONE LOGIC --------------------------------------------
+
+// Update the stone logic on grid
 void Simulation::UpdateStoneLogic() {
     int number_of_stone_grains = 0;
     // Create a new grid to store the updated values
     Grid newGrid = grid;
+
     int firstHalf = grid.GetColumns()/2;
-    for (int i = 0; i < grid.GetRows(); i++) {
+    for (int i = grid.GetRows() - 1; i > -1; i--) {
         for (int j = 0; j < firstHalf; j++) {
             if (grid.GetCell(i, j) ==  STONE_TYPE_1 || grid.GetCell(i, j) ==  STONE_TYPE_2) {
                 UpdateStoneLogicOnCell(i, j, newGrid);
@@ -86,7 +62,7 @@ void Simulation::UpdateStoneLogic() {
             }
         }
     }
-    for (int i = 0; i < grid.GetRows(); i++) {
+    for (int i = grid.GetRows() - 1; i > -1; i--) {
         for (int j = grid.GetColumns()-1; j >= firstHalf; j--) {
             if (grid.GetCell(i, j) ==  STONE_TYPE_1 || grid.GetCell(i, j) ==  STONE_TYPE_2) {
                 UpdateStoneLogicOnCell(i, j, newGrid);
@@ -96,9 +72,10 @@ void Simulation::UpdateStoneLogic() {
     }
     // Update the grid with the new values
     grid = newGrid;
-    std::cout << "Number of Stone grains: " << number_of_stone_grains << std::endl;
+    // std::cout << "Number of Stone grains: " << number_of_stone_grains << std::endl;
 }
 
+// Update logic for a stone cell
 void Simulation::UpdateStoneLogicOnCell(int x, int y, Grid& newGrid) {
     // If the cell is stone
     // Check if Acid below or at the sides
@@ -112,21 +89,14 @@ void Simulation::UpdateStoneLogicOnCell(int x, int y, Grid& newGrid) {
 
 // -------------------------------------------- SAND LOGIC --------------------------------------------
 
+// Update the sand logic on grid
 void Simulation::UpdateSandLogic() {
     int number_of_sand_grains = 0;
     // Create a new grid to store the updated values
     Grid newGrid = grid;
-    // Loop through the cells in the grid
-    // for (int i = 0; i < grid.GetRows(); i++) {
-    //     for (int j = grid.GetColumns()-1; j >= 0; j--) {
-    //         if (grid.GetCell(i, j) ==  SAND_TYPE_1 || grid.GetCell(i, j) ==  SAND_TYPE_2 || grid.GetCell(i, j) ==  SAND_TYPE_3) {
-    //             UpdateSandLogicOnCell(i, j, newGrid);
-    //             number_of_sand_grains++;
-    //         }
-    //     }
-    // }
+
     int firstHalf = grid.GetColumns()/2;
-    for (int i = 0; i < grid.GetRows(); i++) {
+    for (int i = grid.GetRows() - 1; i > -1; i--) {
         for (int j = 0; j < firstHalf; j++) {
             if (grid.GetCell(i, j) ==  SAND_TYPE_1 || grid.GetCell(i, j) ==  SAND_TYPE_2 || grid.GetCell(i, j) ==  SAND_TYPE_3) {
                 UpdateSandLogicOnCell(i, j, newGrid);
@@ -134,7 +104,7 @@ void Simulation::UpdateSandLogic() {
             }
         }
     }
-    for (int i = 0; i < grid.GetRows(); i++) {
+    for (int i = grid.GetRows() - 1; i > -1; i--) {
         for (int j = grid.GetColumns()-1; j >= firstHalf; j--) {
             if (grid.GetCell(i, j) ==  SAND_TYPE_1 || grid.GetCell(i, j) ==  SAND_TYPE_2 || grid.GetCell(i, j) ==  SAND_TYPE_3) {
                 UpdateSandLogicOnCell(i, j, newGrid);
@@ -144,9 +114,10 @@ void Simulation::UpdateSandLogic() {
     }
     // Update the grid with the new values
     grid = newGrid;
-    std::cout << "Number of Sand grains: " << number_of_sand_grains << std::endl;
+    // std::cout << "Number of Sand grains: " << number_of_sand_grains << std::endl;
 }
 
+// Update logic for a sand cell
 void Simulation::UpdateSandLogicOnCell(int x, int y, Grid& newGrid) {
     // If the cell is sand
     // Check if Acid below or at the sides
@@ -184,13 +155,14 @@ void Simulation::UpdateSandLogicOnCell(int x, int y, Grid& newGrid) {
 
 // -------------------------------------------- ACID LOGIC --------------------------------------------
 
+// Update the acid logic on grid
 void Simulation::UpdateAcidLogic() {
     int number_of_acid_grains = 0;
     // Create a new grid to store the updated values
     Grid newGrid = grid;
 
     int firstHalf = grid.GetColumns()/2;
-    for (int i = 0; i < grid.GetRows(); i++) {
+    for (int i = grid.GetRows() - 1; i > -1; i--) {
         for (int j = 0; j < firstHalf; j++) {
             if (grid.GetCell(i, j) ==  ACID_TYPE_1 || grid.GetCell(i, j) ==  ACID_TYPE_2) {
                 UpdateAcidLogicOnCell(i, j, newGrid);
@@ -198,7 +170,7 @@ void Simulation::UpdateAcidLogic() {
             }
         }
     }
-    for (int i = 0; i < grid.GetRows(); i++) {
+    for (int i = grid.GetRows() - 1; i > -1; i--) {
         for (int j = grid.GetColumns()-1; j >= firstHalf; j--) {
             if (grid.GetCell(i, j) ==  ACID_TYPE_1 || grid.GetCell(i, j) ==  ACID_TYPE_2) {
                 UpdateAcidLogicOnCell(i, j, newGrid);
@@ -208,15 +180,13 @@ void Simulation::UpdateAcidLogic() {
     }
     // Update the grid with the new values
     grid = newGrid;
-    std::cout << "Number of Acid grains: " << number_of_acid_grains << std::endl;
+    // std::cout << "Number of Acid grains: " << number_of_acid_grains << std::endl;
 }
 
+// Update logic for an acid cell
 void Simulation::UpdateAcidLogicOnCell(int x, int y, Grid& newGrid) {
-    // Check if the cell is not at the limit of the grid
-    // Check if the cell below is empty or below right or below left
-    // Reset initial cell & 
-    // Same movement as sand
-    // Acid effects on below
+    // Same movement as sand with a bit more randomness
+    // Acid effects on below cells
     int randomPenetration = GetRandomValue(0, 200);
     int randomDelta = GetRandomValue(0, 1);
     int delta = 1;
@@ -251,8 +221,8 @@ void Simulation::UpdateAcidLogicOnCell(int x, int y, Grid& newGrid) {
 
 // -------------------------------------------- Randomizers --------------------------------------------
 
+// Get a random sand type
 int Simulation::GetRandomSandValue() {
-    // Get a random sand type
     int randomSand = GetRandomValue(0, 2);
     if (randomSand == 0) {
         return SAND_TYPE_1;
@@ -264,8 +234,8 @@ int Simulation::GetRandomSandValue() {
     return SAND_TYPE_1;
 }
 
+// Get a random sand type
 int Simulation::GetRandomAcidValue() {
-    // Get a random sand type
     int randomAcid = GetRandomValue(0, 1);
     if (randomAcid == 0) {
         return ACID_TYPE_1;
