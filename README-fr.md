@@ -58,6 +58,13 @@ Cette sandbox permet de simuler plusieurs règles physiques et j'ai trouvé un m
 - Des règles d'aléatoire simples rendent le comportement de ce matériau particulièrement satisfaisant à observer   
 ![](https://github.com/NajibXY/MaterialBox---A-Sandbox-using-CPP-and-Raylib/blob/master/assets/gifs/acid.gif)
 
+### Le vide
+
+- Des cases vides peuvent être remises en sélectionnant le matériau "Empty"
+- Cela agit sur la simulation indépendamment de si celle-ci est en pause ou non
+- Il est d'ailleurs assez fun de mettre en pause la simulation, d'ajouter du vide, puis de relancer la simulation et observer ce qui se passe.
+![](https://github.com/NajibXY/MaterialBox---A-Sandbox-using-CPP-and-Raylib/blob/master/assets/gifs/empty.gif)
+
 
 ## 5. Améliorations possibles
 
