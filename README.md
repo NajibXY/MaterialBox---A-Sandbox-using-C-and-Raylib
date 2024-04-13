@@ -61,9 +61,9 @@ This sandbox simulates several physical rules, and I found great pleasure in get
 
 ### Empty Space
 
-- Empty spaces can be reintroduced by selecting the "Empty" material.
-- This affects the simulation regardless of whether it is paused or not.
-- It's actually quite fun to pause the simulation, add some empty space, then resume the simulation and observe what happens.
+- Empty spaces can be reintroduced by selecting the "Empty" material
+- This affects the simulation regardless of whether it is paused or not
+- It's actually quite fun to pause the simulation, add some empty space, then resume the simulation and observe what happens   
 ![](https://github.com/NajibXY/MaterialBox---A-Sandbox-using-CPP-and-Raylib/blob/master/assets/gifs/empty.gif)
 
 ## 5. Possible Improvements
