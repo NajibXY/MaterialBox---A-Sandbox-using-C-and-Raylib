@@ -48,7 +48,7 @@ class Grid {
         void SetCell(int x, int y, int value);
 
         // Global Drawing operations
-        void DrawGrid(bool running);
+        void DrawGrid();
         void Randomize();
         void Clear();
 

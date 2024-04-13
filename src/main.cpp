@@ -24,7 +24,7 @@ const int WIDTH_W = 1300; // MAX 1920 - 420 = 1500
 const int HEIGHT_W = 900; // MAX 1080
 const int CELL_DIM = 6;
 const int INITIAL_RANDOM_RATE = 3;
-const int INITIAL_FRAMERATE = 120;
+const int INITIAL_FRAMERATE = 60;
 const int MAX_FRAMERATE = 960;
 const int SUBMAX_FRAMERATE = 480;
 const int MIN_FRAMERATE =  15;
@@ -91,7 +91,7 @@ void DrawControlButtons(Texture2D button_left_texture, Texture2D button_right_te
     DrawTextureEx(button_right_texture, position2, 0.0, 0.1, WHITE);
 }
 
-// Change material functions
+// Change material event functions
 void ChangeMaterialToLeft(Simulation& simulation) {
     if (current_material == EMPTY_NAME) {
         current_material = ACID_NAME;
@@ -196,8 +196,7 @@ void EventHandling(Simulation& simulation) {
 /* ------------------------------------------------------------ Main ------------------------------------------------------------ */
 /* ------------------------------------------------------------------------------------------------------------------------------ */
 /* ------------------------------------------------------------------------------------------------------------------------------ */
-int main()
-{
+int main() {
     // Initialisation of window
     InitWindow(WIDTH_W + MENU_W, HEIGHT_W, "MaterialBox");
     SetTargetFPS(INITIAL_FRAMERATE);
