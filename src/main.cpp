@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cmath>
 #include <string>
+#include "raylib.h"
 
 // Simulation consts
 
@@ -38,7 +39,12 @@ const std::string ACID_NAME = "ACID";
 int FRAMERATE = INITIAL_FRAMERATE;
 int RANDOM_RATE = INITIAL_RANDOM_RATE;
 std::string CURRENT_MATERIAL = SAND_NAME;
+Color CURRENT_MATERIAL_TEXT_COLOR = GOLD;
 std::string SIMULATION_STATUS = "Initialized";
+
+float btn_height_1 = 0;
+float btn_width_1 = 0;
+Rectangle btnBounds;
 
 void DrawControlText() {
     int i=1;
@@ -63,10 +69,12 @@ void DrawControlText() {
     DrawText("E : Clear grid", WIDTH_W+30, 30*i, 20, YELLOW);
     i+=2;
     // Shape controls
-    DrawText("O & P to navigate materials", WIDTH_W+30, 30*i, 20, WHITE);
+    DrawText("Arrows or O/P to navigate materials", WIDTH_W+30, 30*i, 20, WHITE);
     i++;
-    DrawText(("     < "+CURRENT_MATERIAL+" >     ").c_str(), WIDTH_W+30, 30*i, 20, RED);
-    i++;
+    DrawText((""+CURRENT_MATERIAL+"").c_str(), WIDTH_W+100, 30*i, 40, CURRENT_MATERIAL_TEXT_COLOR);
+    btn_height_1 = (30*i)-5;
+    btn_width_1 = WIDTH_W+30;
+    i+=3;
     DrawText("Left click (hold) : Draw material", WIDTH_W+30, 30*i, 20, GREEN);
     i++;
 
@@ -85,11 +93,46 @@ int main()
 
     Simulation simulation(WIDTH_W, HEIGHT_W, CELL_DIM, RANDOM_RATE);
 
+    // Load arrow images
+    Image arrow_left = LoadImage("assets/arrow_left.png"); 
+    Image arrow_right = LoadImage("assets/arrow_right.png"); 
+    Texture2D button_left_texture = LoadTextureFromImage(arrow_left); 
+    Texture2D button_right_texture = LoadTextureFromImage(arrow_right); 
+
     /* ------------ Simulation loop ------------*/
     while (WindowShouldClose() == false)
     {   
         // Event Handling 
-        if (IsKeyPressed(KEY_R)) {
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+            std::cout << "PRESSED" << std::endl;
+            Vector2 mousePos = GetMousePosition();
+            if (CheckCollisionPointRec(mousePos, btnBounds)){
+                std::cout << "COLLISION" << std::endl;
+                // Navigate materials right to left
+                if (CURRENT_MATERIAL == EMPTY_NAME) {
+                    CURRENT_MATERIAL = ACID_NAME;
+                    CURRENT_MATERIAL_TEXT_COLOR = LIME;
+                    simulation.SetMaterialType(ACID_TYPE);
+                } else if (CURRENT_MATERIAL == ACID_NAME) {
+                    CURRENT_MATERIAL = STONE_NAME;
+                    CURRENT_MATERIAL_TEXT_COLOR = WHITE;
+                    simulation.SetMaterialType(STONE_TYPE);
+                } else if (CURRENT_MATERIAL == STONE_NAME){
+                    CURRENT_MATERIAL = SAND_NAME;
+                    CURRENT_MATERIAL_TEXT_COLOR = GOLD;
+                    simulation.SetMaterialType(SAND_TYPE);
+                } else if (CURRENT_MATERIAL == SAND_NAME){
+                    CURRENT_MATERIAL = EMPTY_NAME;
+                    CURRENT_MATERIAL_TEXT_COLOR = RED;
+                    simulation.SetMaterialType(EMPTY_TYPE);
+                } else {
+                    CURRENT_MATERIAL = ACID_NAME;
+                    CURRENT_MATERIAL_TEXT_COLOR = LIME;
+                    simulation.SetMaterialType(ACID_TYPE);
+                }
+            }
+        }
+        else if (IsKeyPressed(KEY_R)) {
             // Randomize the grid
             simulation.Randomize();
         }  
@@ -129,18 +172,23 @@ int main()
             // Navigate materials right to left
             if (CURRENT_MATERIAL == EMPTY_NAME) {
                 CURRENT_MATERIAL = ACID_NAME;
+                CURRENT_MATERIAL_TEXT_COLOR = LIME;
                 simulation.SetMaterialType(ACID_TYPE);
             } else if (CURRENT_MATERIAL == ACID_NAME) {
                 CURRENT_MATERIAL = STONE_NAME;
+                CURRENT_MATERIAL_TEXT_COLOR = WHITE;
                 simulation.SetMaterialType(STONE_TYPE);
             } else if (CURRENT_MATERIAL == STONE_NAME){
                 CURRENT_MATERIAL = SAND_NAME;
+                CURRENT_MATERIAL_TEXT_COLOR = GOLD;
                 simulation.SetMaterialType(SAND_TYPE);
             } else if (CURRENT_MATERIAL == SAND_NAME){
                 CURRENT_MATERIAL = EMPTY_NAME;
+                CURRENT_MATERIAL_TEXT_COLOR = RED;
                 simulation.SetMaterialType(EMPTY_TYPE);
             } else {
                 CURRENT_MATERIAL = ACID_NAME;
+                CURRENT_MATERIAL_TEXT_COLOR = LIME;
                 simulation.SetMaterialType(ACID_TYPE);
             }
         }
@@ -148,18 +196,23 @@ int main()
             // Navigate materials left to right
             if (CURRENT_MATERIAL == EMPTY_NAME) {
                 CURRENT_MATERIAL = SAND_NAME;
+                CURRENT_MATERIAL_TEXT_COLOR = GOLD;
                 simulation.SetMaterialType(SAND_TYPE);
             } else if (CURRENT_MATERIAL == SAND_NAME) {
                 CURRENT_MATERIAL = STONE_NAME;
+                CURRENT_MATERIAL_TEXT_COLOR = WHITE;
                 simulation.SetMaterialType(STONE_TYPE);
             } else if (CURRENT_MATERIAL == STONE_NAME){
                 CURRENT_MATERIAL = ACID_NAME;
+                CURRENT_MATERIAL_TEXT_COLOR = LIME;
                 simulation.SetMaterialType(ACID_TYPE);
             } else if (CURRENT_MATERIAL == ACID_NAME){
                 CURRENT_MATERIAL = EMPTY_NAME;
+                CURRENT_MATERIAL_TEXT_COLOR = RED;
                 simulation.SetMaterialType(EMPTY_TYPE);
             } else {
                 CURRENT_MATERIAL = SAND_NAME;
+                CURRENT_MATERIAL_TEXT_COLOR = GOLD;
                 simulation.SetMaterialType(SAND_TYPE);
             }
         }
@@ -168,16 +221,26 @@ int main()
         if (simulation.IsRunning()) {
             simulation.Update();
         }
-
+        
         // Object drawing
         BeginDrawing();
-        DrawControlText();
-        ClearBackground(GREY);
-        simulation.DrawGrid();
+            DrawControlText();
+            Vector2 position = (Vector2){btn_width_1,btn_height_1};
+            Vector2 position2 = (Vector2){btn_width_1+200,btn_height_1};
+            btnBounds = { position.x, position.y, (float)button_left_texture.width*0.1, button_left_texture.height*0.1 };
+            DrawTextureEx(button_left_texture, position, 0.0, 0.1, WHITE);
+            DrawTextureEx(button_right_texture, position2, 0.0, 0.1, WHITE);
+            ClearBackground(GREY);
+            simulation.DrawGrid();
         EndDrawing();
     }
-
+    
+    UnloadImage(arrow_left);
+    UnloadImage(arrow_right);
+    UnloadTexture(button_left_texture);  // Unload button texture
+    UnloadTexture(button_right_texture);  // Unload button texture
     // Closing window
     CloseWindow();
+    return 0;
 }
 

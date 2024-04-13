@@ -103,7 +103,10 @@ void Simulation::UpdateStoneLogicOnCell(int x, int y, Grid& newGrid) {
     // If the cell is stone
     // Check if Acid below or at the sides
     if (newGrid.IsAcid(x + 1, y) || newGrid.IsAcid(x + 1, y - 1) || newGrid.IsAcid(x + 1, y + 1) || newGrid.IsAcid(x, y - 1) || newGrid.IsAcid(x, y + 1)) {
-        newGrid.SetCell(x, y, EMPTY_TYPE);
+        int randomPenetration = GetRandomValue(0, 200);
+        if (randomPenetration == 0) {
+            newGrid.SetCell(x, y, EMPTY_TYPE);
+        }
     }
 }
 
@@ -148,7 +151,10 @@ void Simulation::UpdateSandLogicOnCell(int x, int y, Grid& newGrid) {
     // If the cell is sand
     // Check if Acid below or at the sides
     if (newGrid.IsAcid(x + 1, y) || newGrid.IsAcid(x + 1, y - 1) || newGrid.IsAcid(x + 1, y + 1) || newGrid.IsAcid(x, y - 1) || newGrid.IsAcid(x, y + 1)) {
-        newGrid.SetCell(x, y, EMPTY_TYPE);
+        int randomPenetration = GetRandomValue(0, 200);
+        if (randomPenetration == 0) {
+            newGrid.SetCell(x, y, EMPTY_TYPE);
+        }
     }
     // Check if the cell is not at the limit of the grid
     else if (!newGrid.IsAtBottomLimit(x, y) || newGrid.IsEmpty(x + 1, y)) { 
@@ -211,26 +217,35 @@ void Simulation::UpdateAcidLogicOnCell(int x, int y, Grid& newGrid) {
     // Reset initial cell & 
     // Same movement as sand
     // Acid effects on below
+    int randomPenetration = GetRandomValue(0, 200);
+    int randomDelta = GetRandomValue(0, 1);
+    int delta = 1;
+    if (randomDelta == 0) {
+        delta = -1;
+    }
     if (newGrid.IsInBounds(x + 1, y) && newGrid.GetCell(x + 1, y) != ACID_TYPE_1 && newGrid.GetCell(x + 1, y) != ACID_TYPE_2){
-        newGrid.SetCell(x, y, EMPTY_TYPE);
-        newGrid.SetCell(x + 1, y, GetRandomAcidValue());
-    } else if (newGrid.IsInBounds(x + 1, y - 1) && newGrid.IsInBounds(x + 1, y + 1) 
-        && newGrid.GetCell(x + 1, y - 1) != ACID_TYPE_1 && newGrid.GetCell(x + 1, y - 1) != ACID_TYPE_2 
-        && newGrid.GetCell(x + 1, y + 1) != ACID_TYPE_1 && newGrid.GetCell(x + 1, y + 1) != ACID_TYPE_2) {
-        int randomDirection = GetRandomValue(0, 1);
-        if (randomDirection == 0) {
-            newGrid.SetCell(x, y, EMPTY_TYPE);
-            newGrid.SetCell(x + 1, y - 1, GetRandomAcidValue());
-        } else {
-            newGrid.SetCell(x, y, EMPTY_TYPE);
-            newGrid.SetCell(x + 1, y + 1, GetRandomAcidValue());
+        if (newGrid.IsEmpty(x + 1, y)) {
+            randomPenetration = 0;
         }
-    } else if (newGrid.IsInBounds(x + 1, y - 1) && newGrid.GetCell(x + 1, y - 1) != ACID_TYPE_1 && newGrid.GetCell(x + 1, y - 1) != ACID_TYPE_2) {
-        newGrid.SetCell(x, y, EMPTY_TYPE);
-        newGrid.SetCell(x + 1, y - 1, GetRandomAcidValue());
-    } else if (newGrid.IsInBounds(x + 1, y + 1) && newGrid.GetCell(x + 1, y + 1) != ACID_TYPE_1 && newGrid.GetCell(x + 1, y + 1) != ACID_TYPE_2) {
-        newGrid.SetCell(x, y, EMPTY_TYPE);
-        newGrid.SetCell(x + 1, y + 1, GetRandomAcidValue());
+        if (randomPenetration == 0) {
+            newGrid.SetCell(x, y, EMPTY_TYPE);
+            newGrid.SetCell(x + 1, y, GetRandomAcidValue());
+        }
+    } else if (newGrid.IsInBounds(x + 1, y + delta) && newGrid.GetCell(x + 1, y + delta) != ACID_TYPE_1 && newGrid.GetCell(x + 1, y + delta) != ACID_TYPE_2) {
+        if (newGrid.IsEmpty(x + 1, y + delta)) {
+            randomPenetration = 0;
+        }
+        if (randomPenetration == 0) {
+            newGrid.SetCell(x, y, EMPTY_TYPE);
+            newGrid.SetCell(x + 1, y + delta, GetRandomAcidValue());
+        }
+    } else if (!newGrid.IsAtLimit(x, y) 
+    && newGrid.IsInBounds(x, y + delta) && newGrid.GetCell(x, y + delta) != ACID_TYPE_1 && newGrid.GetCell(x, y + delta) != ACID_TYPE_2) {
+        int random = GetRandomValue(0, 10);
+        if (random == 0) {
+            newGrid.SetCell(x, y, EMPTY_TYPE);
+            newGrid.SetCell(x, y + delta, GetRandomAcidValue());
+        }
     }
 }
 

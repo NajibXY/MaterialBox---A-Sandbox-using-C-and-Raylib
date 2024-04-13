@@ -2,6 +2,7 @@
 
 ## Memo of todos
 
+- Make stone draw structures (randomize with width etc and less random on main draw for stone) 
 - Show material colors in menu
 - Add an example dotexe in the end
 - Enhance clearing propagation
