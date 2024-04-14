@@ -25,7 +25,7 @@ This sandbox simulates several physical rules, and I found great pleasure in get
 
 #### Implemented user Controls
 
-- Grid randomization (Key R)
+- Grid randomization (Key R) : randomization adds randomly placed sand particles and randomly generated stone structures in the canvas
 - Grid cleaning (Key E)
 - Game acceleration and deceleration (Keys S, D & F)
 - Pause / Resume the game (Space key)
@@ -47,6 +47,7 @@ This sandbox simulates several physical rules, and I found great pleasure in get
 
 - Forms static blocks on the drawing grid 
 - Blocks the passage of sand
+- When randomizing the canvas, randomly generated stone structures are placed
 - Dissolves gradually upon contact with acid   
 ![](https://github.com/NajibXY/MaterialBox---A-Sandbox-using-CPP-and-Raylib/blob/master/assets/gifs/stone.gif)
 
