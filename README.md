@@ -7,7 +7,7 @@
 
 <img align="right" src="https://github.com/NajibXY/MaterialBox---A-Sandbox-using-CPP-and-Raylib/blob/master/assets/gifs/main.gif">
 
-As part of my experimentations with the Raylib library, and always focusing on cellular automata, I reworked my project of Game of Life simulation ([Game of Life in C++ with the Raylib library](https://github.com/NajibXY/Game-Of-Life-using-CPP-and-Raylib)) and developed another project : MaterialBox, an interactive sandbox where the user can play with different materials. </br></br>
+As part of my experimentations with the Raylib library, and always focusing on cellular automata, I reworked my project of Game of Life simulation ([Game of Life in C++ with the Raylib library](https://github.com/NajibXY/Game-Of-Life-using-CPP-and-Raylib/blob/master/README.md)) and developed another project : MaterialBox, an interactive sandbox where the user can play with different materials. </br></br>
 This sandbox simulates several physical rules, and I found great pleasure in getting mesmerized with the renders it can produce.
 </br> </br> </br> </br>
 
