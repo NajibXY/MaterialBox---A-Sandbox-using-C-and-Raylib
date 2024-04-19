@@ -12,7 +12,7 @@ This sandbox simulates several physical rules, and I found great pleasure in get
 </br> </br> </br> </br>
 
 ## 2. Technologies used
-
+![](https://skillicons.dev/icons?i=cpp)
 - C++14
 - Raylib library for video game development: I've been wanting to test this easy-to-use library for a while, which offers very good tools for the development of 2D games (and more generally, interfaces).
 - The template used for configuring the Raylib project comes from this repository: https://github.com/educ8s/Raylib-CPP-Starter-Template-for-VSCODE-V2
