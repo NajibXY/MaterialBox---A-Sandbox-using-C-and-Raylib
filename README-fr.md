@@ -24,12 +24,12 @@ Cette sandbox permet de simuler plusieurs règles physiques et j'ai trouvé un m
 
 #### Contrôles implémentés 
 
-- Randomisation de la grille (Touche R) : la randomisation ajoute des particules de sable placées de manière aléatoire et des structures de pierre générées aléatoirement dans le canva
-- Nettoyage de la grille (Touche E)
-- Accélération et Ralentissement du jeu (Touches S, D & F)
-- Mettre en pause / Reprendre le jeu (Touche Espace)
-- Jouer une étape de rafraîchissement (Touche G)
-- Modifier le matériau choisi (Touche O/P ou Gauche/Droite ou Clics sur les boutons adéquats)
+- Randomisation de la grille (Touche `R`) : la randomisation ajoute des particules de sable placées de manière aléatoire et des structures de pierre générées aléatoirement dans le canva
+- Nettoyage de la grille (Touche `E`)
+- Accélération et Ralentissement du jeu (Touches `S` `D` & `F`)
+- Mettre en pause / Reprendre le jeu (Touche `Espace`)
+- Jouer une étape de rafraîchissement (Touche `G`)
+- Modifier le matériau choisi (Touches `O`/`P` ou `Gauche`/`Droite` ou `Clics` sur les boutons `<` et `>`)
 ![](https://github.com/NajibXY/MaterialBox---A-Sandbox-using-CPP-and-Raylib/blob/master/assets/gifs/random.gif)
 
 ## 4. Matériaux implémentées
