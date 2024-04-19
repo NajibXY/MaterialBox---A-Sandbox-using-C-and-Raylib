@@ -25,7 +25,7 @@ This sandbox simulates several physical rules, and I found great pleasure in get
 
 #### Implemented user Controls
 
-- Grid randomization (Key `R`) : randomization adds randomly placed sand particles and randomly generated stone structures in the canvas
+- Grid randomization (Key `R`) : adds randomly placed sand particles and randomly generated stone structures in the canvas
 - Grid cleaning (Key `E`)
 - Game acceleration and deceleration (Keys `S` `D` & `F`)
 - Pause / Resume the game (`Space` key)
